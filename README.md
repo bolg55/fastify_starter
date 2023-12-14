@@ -14,7 +14,7 @@ This is a boilerplate for fastify with typescript. Comes preconfigured with a fe
 
 ### Folder structure
 
-```mermaid
+```
 ├───src
 │   ├───config
 │   ├───plugins
