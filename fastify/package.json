@@ -24,6 +24,7 @@
     "pino": "^8.17.0",
     "pino-pretty": "^10.2.3",
     "stripe": "^14.8.0",
+    "supertokens-node": "^16.7.1",
     "zennv": "^0.1.1",
     "zod": "^3.22.4"
   },

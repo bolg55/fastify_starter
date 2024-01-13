@@ -4,6 +4,7 @@ import Fastify, { FastifyInstance, FastifyLoggerOptions } from 'fastify';
 import corsPlugin from '@plugins/cors';
 import helmetPlugin from '@plugins/helmet';
 import redisPlugin from '@plugins/redis';
+import initSuperTokens from '@plugins/auth';
 
 // Swagger Docs
 import swaggerDocs from '@plugins/swagger';
@@ -11,7 +12,7 @@ import swaggerDocs from '@plugins/swagger';
 
 // Schema
 
-const plugins = [corsPlugin, helmetPlugin, redisPlugin];
+const plugins = [corsPlugin, helmetPlugin, redisPlugin, initSuperTokens];
 
 export const createFastifyInstance = (
   logger: FastifyLoggerOptions
