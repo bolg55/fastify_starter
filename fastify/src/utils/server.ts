@@ -12,7 +12,7 @@ import swaggerDocs from '@plugins/swagger';
 
 // Schema
 
-const plugins = [corsPlugin, helmetPlugin, redisPlugin, initSuperTokens];
+const plugins = [initSuperTokens, corsPlugin, helmetPlugin, redisPlugin];
 
 export const createFastifyInstance = (
   logger: FastifyLoggerOptions
