@@ -1,0 +1,16 @@
+{
+  "env": {
+    "targets": {
+      "node": 18
+    }
+  },
+  "jsc": {
+    "parser": {
+      "syntax": "typescript"
+    }
+  },
+  "module": {
+    "type": "nodenext"
+  },
+  "sourceMaps": "inline"
+}
