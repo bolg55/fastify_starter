@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/node18/tsconfig.json",
   "compilerOptions": {
-    "types": ["node", "jest"],
+    "types": ["node"],
     "resolveJsonModule": true,
     "baseUrl": "./src",
     "lib": ["ESNext"],

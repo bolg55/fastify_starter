@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/main.ts",
-    "build": "rimraf dist && swc src -d dist/esm  && tsup ./dist/esm/main.js --format esm -d dist --minify",
+    "build": "rimraf dist && swc src -d dist/esm  && tsup ./dist/esm/main.js -d dist --minify",
     "start": "node dist/main.js"
   },
   "keywords": [],
