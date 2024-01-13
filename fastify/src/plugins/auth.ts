@@ -8,6 +8,7 @@ import authProviders from '@utils/providers';
 
 const initSuperTokens = async () => {
   supertokens.init({
+    debug: true,
     framework: 'fastify',
     supertokens: {
       connectionURI:
@@ -27,8 +28,8 @@ const initSuperTokens = async () => {
         contactMethod: 'EMAIL',
         providers: authProviders,
       }),
-      Dashboard.init(),
       Session.init(),
+      Dashboard.init(),
       UserRoles.init(),
     ],
   });

@@ -13,7 +13,13 @@ import swaggerDocs from '@plugins/swagger';
 
 // Schema
 
-const plugins = [helmetPlugin, initSuperTokens, corsPlugin, redisPlugin];
+const plugins = [
+  plugin,
+  initSuperTokens,
+  corsPlugin,
+  helmetPlugin,
+  redisPlugin,
+];
 
 export const createFastifyInstance = (
   logger: FastifyLoggerOptions
@@ -26,6 +32,7 @@ const registerPlugins = async (
 ): Promise<void> => {
   for (const plugin of plugins) {
     await fastifyInstance.register(plugin);
+    console.log(plugin, 'registered');
   }
 };
 
