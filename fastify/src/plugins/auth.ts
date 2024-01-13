@@ -27,8 +27,8 @@ const initSuperTokens = async () => {
         contactMethod: 'EMAIL',
         providers: authProviders,
       }),
-      Session.init(),
       Dashboard.init(),
+      Session.init(),
       UserRoles.init(),
     ],
   });
