@@ -1,4 +1,5 @@
 import Fastify, { FastifyInstance, FastifyLoggerOptions } from 'fastify';
+import { plugin, errorHandler } from 'supertokens-node/framework/fastify';
 
 // Plugins
 import corsPlugin from '@plugins/cors';
@@ -30,6 +31,7 @@ const registerPlugins = async (
 
 export const buildServer = async (logger: FastifyLoggerOptions) => {
   const app = createFastifyInstance(logger);
+  app.setErrorHandler(errorHandler());
 
   app.get('/healthcheck', {
     handler: async () => {
