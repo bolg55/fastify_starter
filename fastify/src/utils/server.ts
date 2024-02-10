@@ -32,7 +32,6 @@ const registerPlugins = async (
 ): Promise<void> => {
   for (const plugin of plugins) {
     await fastifyInstance.register(plugin);
-    console.log(plugin, 'registered');
   }
 };
 

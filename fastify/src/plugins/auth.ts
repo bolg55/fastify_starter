@@ -8,7 +8,6 @@ import authProviders from '@utils/providers';
 
 const initSuperTokens = async () => {
   supertokens.init({
-    debug: true,
     framework: 'fastify',
     supertokens: {
       connectionURI:
