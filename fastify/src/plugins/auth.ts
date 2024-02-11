@@ -1,3 +1,4 @@
+import { env } from '@config/env';
 import fastifyPlugin from 'fastify-plugin';
 import supertokens from 'supertokens-node';
 import Session from 'supertokens-node/recipe/session/index.js';
@@ -10,14 +11,13 @@ const initSuperTokens = async () => {
   supertokens.init({
     framework: 'fastify',
     supertokens: {
-      connectionURI:
-        process.env.SUPERTOKENS_CONNECTION_URI || 'https://try.supertokens.io',
-      apiKey: process.env.SUPERTOKENS_API_KEY || 'tryout-supertokens-api-key',
+      connectionURI: env.SUPERTOKENS_CONNECTION_URI,
+      apiKey: env.SUPERTOKENS_API_KEY,
     },
     appInfo: {
       appName: 'Fastify Starter',
-      apiDomain: process.env.API_DOMAIN || 'http://localhost:8080',
-      websiteDomain: process.env.WEBSITE_DOMAIN || 'http://localhost:3000',
+      apiDomain: env.API_DOMAIN,
+      websiteDomain: env.WEBSITE_DOMAIN,
       apiBasePath: '/api/auth',
       websiteBasePath: '/auth',
     },
