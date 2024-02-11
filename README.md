@@ -1,33 +1,153 @@
-## Fastify Boilerplate
+# Fastify Starter project
 
-This is a boilerplate for fastify with typescript. Comes preconfigured with a few plugins and a basic folder structure.
+This is a starter project for building APIs with Fastify. It comes preconfigured with some of the most popular plugins and services, including Redis, Supertokens, NeonDB, and more.
 
-### Core plugins
+Meant to help you get started quickly with building APIs, this project is designed to be a starting point for building APIs with Fastify. It comes with a folder structure and configuration that is designed to be easy to understand and modify.
 
+## Core features
+
+- [x] Fastify
+- [x] Drizzle ORM
 - [x] CORS
 - [x] Helmet
 - [x] Swagger Docs
 - [x] Redis cache (via Upstash)
+- [x] Auth (via Supertokens)
+- [x] Neon Database (PostgreSQL)
 - [ ] Stripe integration (coming soon)
-- [ ] Auth (coming soon)
-- [ ] Neon DB (coming soon)
 
 ### Folder structure
+
+The folder structure is designed to be easy to understand and modify. It is designed to be modular and easy to scale.
 
 ```
 ├───src
 │   ├───config
+│   ├───controllers
+│   ├───db
+│   ├───middlewares
+│   ├───models
 │   ├───plugins
+│   ├───routes
+│   ├───services
 │   └───utils
 └───main.ts
 ```
 
-### How to use
+### Configuration
+
+Included is a `.env.example` file which you can use to create your own `.env` file to store your environment variables.
+
+In the `src/config` folder, you can find the `env.ts` file which is used to validate the variable type using [zod](https://www.npmjs.com/package/zod) and [zennv](https://www.npmjs.com/package/zennv).
+
+You can remove any of the variables from the schema validation if you don't need them.
+
+> **Note**: You will still need to add your environment variables to your .env file.
+> This takes the place of using traditional dotenv and `process.env` to access environment variables. If you do not care about validation and would prefer not to use this, you can remove the `env.ts` file and use `dotenv` instead. You will just need to find and replace anywhere that uses `env` with `process.env`.
+
+## Drizzle ORM
+
+This starter project comes preconfigured with [Drizzle ORM](https://orm.drizzle.team/). Drizzle is a modern, type-safe, and easy-to-use ORM for TypeScript. Using Drizzle you can define & manage database schemas in TypeScript, access your data in a SQL-like or relational way, and take advantage of opt in tools to push your developer experience through the roof.
+
+If you know SQL, you know Drizzle.
+
+## Core plugins
+
+### Redis
+
+This starter project is preconfigured to use [Upstash](https://upstash.com/) as a serverless Redis cache. You can change the redis configuration if you'd like to use a different provider or your own server. To change the redis configuration, you can modify the `src/plugins/redis.ts` file.
+
+Redis has also been added directly to the fastify instance, so you can access it from your routes, controllers, and services.
+
+```typescript
+// src/routes/example.ts
+import { FastifyInstance } from 'fastify';
+
+export default async function (fastify: FastifyInstance) {
+  fastify.get('/example', async (request, reply) => {
+    const cache = await fastify.redis.get('example');
+    if (cache) {
+      return JSON.parse(cache);
+    }
+
+    const data = { example: 'data' };
+    await fastify.redis.set('example', JSON.stringify(data), 'EX', 60);
+    return data;
+  });
+}
+```
+
+### Swagger docs
+
+This starter project comes preconfigured with Swagger Docs. You can access the docs at `/docs` when you run the server. Each route is documented with the parameters, responses, and more. You can modify the configuration in the `src/plugins/swagger.ts` file.
+
+### Cors
+
+This starter project comes preconfigured with CORS. You can modify the configuration in the `src/plugins/cors.ts` file. The configuration is set to work with supertokens by default.
+
+### Helmet
+
+This starter project comes preconfigured with Helmet. You can modify the configuration in the `src/plugins/helmet.ts` file.
+
+### Auth via Supertokens
+
+This starter project comes preconfigured with [Supertokens](https://supertokens.com/). Supertokens is a secure, open-source and easy to use authentication and session management solution. The hosted version of supertokens is used in this starter project, and allows up to 5000 users. Supertokens also offer a self-hosted version for larger projects, as well as user management, multi-tenancy, and more.
+
+Some of the features of Supertokens include:
+
+- Passwordless authentication
+- Email verification (Magic links)
+- Session management
+- JWT
+- OAuth
+- Social login
+- Multi-factor authentication
+- And more
+
+You can sign up for a free account at [supertokens.com](https://supertokens.com/). You can modify the configuration in the `src/plugins/auth.ts` file.
+
+### Neon database
+
+This starter project comes preconfigured with [Neon](https://neon.tech/). Neon is a serverless, globally distributed, and highly scalable postgres database. It is designed to be a drop-in replacement for traditional SQL databases, and is built on top of the PostgreSQL protocol. NeonDB is designed to be a fully managed, serverless, and globally distributed database that is easy to use and scales automatically.
+
+You can sign up for a free account at [neon.tech](https://neon.tech/).
+
+#### Migration scripts
+
+Using `drizzle-kit` you can easily migrate your database schema. Provided are the following scripts in the `package.json` file:
+
+```json
+"migration:generate": "drizzle-kit generate:pg --config=drizzle.config.ts",
+"migration:push": "node -r esbuild-register src/db/migrate.ts",
+"migrate": "drizzle-kit generate:pg --config=drizzle.config.ts && node -r esbuild-register src/db/migrate.ts"
+```
+
+You can run the migration script using the following command:
+
+```zsh
+npm run migrate
+```
+
+### Stripe integration (Coming soon)
+
+Stripe is a popular payment gateway that allows you to accept payments online. This starter project comes preconfigured with Stripe, allowing for both one-time and recurring payments as well as subscription management and webhooks.
+
+## How to use
 
 1. Clone the repo
-2. Run `npm install`
-3. Run `npm run dev` to start the server in development mode
+2. Run `npm install` to install required dependencies
+3. Create a `.env` file using the `.env.example` file as a template
+4. Run `npm run migrate` to create the database schema
+5. Run `npm run dev` to start the server in development mode
 
-### License
+## Contributing
+
+If you'd like to contribute to this project, please fork the repository and submit a pull request. You can also submit an issue if you find a bug or have a feature request.
+
+## Support
+
+If you need help with this project, you can reach out to me on Twitter at [@kellenbolger](https://twitter.com/kellenbolger).
+
+## License
 
 MIT
