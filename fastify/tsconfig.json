@@ -13,6 +13,7 @@
       "@middleware/*": ["middleware/*"],
       "@plugins/*": ["plugins/*"],
       "@utils/*": ["utils/*"],
+      "@db/*": ["db/*"],
       "@types/*": ["types/*"]
     }
   },
