@@ -7,9 +7,9 @@
     "dev": "tsx watch src/main.ts",
     "build": "rimraf dist && swc src -d dist/esm  && tsup ./dist/esm/main.js -d dist --minify",
     "start": "node dist/main.js",
-    "introspect": "drizzle-kit introspect:pg --config=drizzle.config.ts",
-    "generate": "drizzle-kit generate:pg --config=drizzle.config.ts",
-    "migrate": "tsx -r zennv/config src/db/migrate.ts",
+    "migration:generate": "drizzle-kit generate:pg --config=drizzle.config.ts",
+    "migration:push": "node -r esbuild-register src/db/migrate.ts",
+    "migrate": "drizzle-kit generate:pg --config=drizzle.config.ts && node -r esbuild-register src/db/migrate.ts",
     "studio": "drizzle-kit studio"
   },
   "keywords": [],
