@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1707690114764,
+      "tag": "0000_adorable_big_bertha",
+      "breakpoints": false
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1708193643314,
+      "tag": "0001_optimal_manta",
+      "breakpoints": false
+    }
+  ]
+}
