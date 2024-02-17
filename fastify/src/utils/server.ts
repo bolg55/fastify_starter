@@ -5,7 +5,7 @@ import { plugin, errorHandler } from 'supertokens-node/framework/fastify';
 import corsPlugin from '@plugins/cors';
 import helmetPlugin from '@plugins/helmet';
 import redisPlugin from '@plugins/redis';
-import initSuperTokens from '@plugins/auth';
+import initSuperTokens from '@plugins/auth/auth';
 
 // Swagger Docs
 import swaggerDocs from '@plugins/swagger';

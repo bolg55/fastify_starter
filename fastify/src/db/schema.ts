@@ -18,7 +18,7 @@ export const profiles = pgTable('profiles', {
   id: serial('id'),
   userId: uuid('user_id')
     .primaryKey()
-    .references(() => users.id),
+    .references(() => users.id, { onDelete: 'cascade' }),
   name: varchar('name', { length: 255 }),
   stripeCustomerId: varchar('stripe_customer_id', { length: 255 }),
   createdAt: timestamp('created_at').notNull().defaultNow(),
