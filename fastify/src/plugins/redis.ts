@@ -1,5 +1,5 @@
 import { env } from '@config/env';
-import { Redis } from '@upstash/redis';
+import Redis from 'ioredis';
 import fastifyPlugin from 'fastify-plugin';
 import { FastifyInstance } from 'fastify';
 
@@ -10,10 +10,9 @@ declare module 'fastify' {
 }
 
 const redisPlugin = async (server: FastifyInstance) => {
-  const redis = new Redis({
-    url: env.UPSTASH_REDIS_REST_URL,
-    token: env.UPSTASH_REDIS_REST_TOKEN,
-  });
+  const redis = new Redis(
+    `rediss://default:${env.UPSTASH_REDIS_REST_TOKEN}@${env.UPSTASH_REDIS_REST_URL}`
+  );
 
   server.decorate('redis', redis);
 };
