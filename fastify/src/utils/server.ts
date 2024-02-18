@@ -10,6 +10,7 @@ import formDataPlugin from '@fastify/formbody';
 
 // Swagger Docs
 import swaggerDocs from '@plugins/swagger';
+import { userSchemas } from 'schemas/userSchemas';
 // Routes
 
 // Schema
@@ -22,6 +23,8 @@ const plugins = [
   redisPlugin,
   formDataPlugin,
 ];
+
+const schemas = [...userSchemas];
 
 export const createFastifyInstance = (
   logger: FastifyLoggerOptions
@@ -37,6 +40,14 @@ const registerPlugins = async (
   }
 };
 
+const registerSchemas = async (
+  fastifyInstance: FastifyInstance
+): Promise<void> => {
+  for (const schema of schemas) {
+    await fastifyInstance.addSchema(schema);
+  }
+};
+
 export const buildServer = async (logger: FastifyLoggerOptions) => {
   const app = createFastifyInstance(logger);
   app.setErrorHandler(errorHandler());
@@ -46,6 +57,9 @@ export const buildServer = async (logger: FastifyLoggerOptions) => {
       return { status: 'OK' };
     },
   });
+
+  // Register Schemas here
+  await registerSchemas(app);
 
   // Register Plugins here
   await registerPlugins(app);
