@@ -1,4 +1,4 @@
-import { createUserAndProfile } from '@db/userUtils';
+import { createUserAndProfile } from 'services/userServices';
 import { RecipeInterface } from 'supertokens-node/recipe/thirdpartypasswordless/types';
 
 const thirdPartySignInUpOverride =

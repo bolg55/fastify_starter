@@ -1,6 +1,6 @@
+import { db } from '@db/index';
 import { eq } from 'drizzle-orm';
-import { db } from '.';
-import { profiles, users } from './schema';
+import { profiles, users } from '@db/schema';
 
 export const createUserAndProfile = async (
   id: string,
