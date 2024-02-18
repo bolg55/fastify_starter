@@ -19,6 +19,8 @@ export const buildServer = async (logger: FastifyLoggerOptions) => {
   const app = createFastifyInstance(logger);
   app.setErrorHandler(errorHandler());
 
+  app.decorateRequest('user', null);
+
   app.get('/healthcheck', {
     handler: async () => {
       return { status: 'OK' };
