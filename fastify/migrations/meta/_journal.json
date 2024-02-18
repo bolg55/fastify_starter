@@ -15,6 +15,13 @@
       "when": 1708193643314,
       "tag": "0001_optimal_manta",
       "breakpoints": false
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1708285277058,
+      "tag": "0002_gorgeous_ezekiel",
+      "breakpoints": false
     }
   ]
 }
