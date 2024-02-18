@@ -1,51 +1,18 @@
 import Fastify, { FastifyInstance, FastifyLoggerOptions } from 'fastify';
-import { plugin, errorHandler } from 'supertokens-node/framework/fastify';
+import { errorHandler } from 'supertokens-node/framework/fastify';
 
-// Plugins
-import corsPlugin from '@plugins/cors';
-import helmetPlugin from '@plugins/helmet';
-import redisPlugin from '@plugins/redis';
-import initSuperTokens from '@plugins/auth/auth';
-import formDataPlugin from '@fastify/formbody';
+// Registration
+import { registerPlugins } from 'registration/registerPlugins';
+import { registerSchemas } from 'registration/registerSchemas';
+import { registerRoutes } from 'registration/registerRoutes';
 
 // Swagger Docs
 import swaggerDocs from '@plugins/swagger';
-import { userSchemas } from 'schemas/userSchemas';
-// Routes
-
-// Schema
-
-const plugins = [
-  plugin,
-  initSuperTokens,
-  corsPlugin,
-  helmetPlugin,
-  redisPlugin,
-  formDataPlugin,
-];
-
-const schemas = [...userSchemas];
 
 export const createFastifyInstance = (
   logger: FastifyLoggerOptions
 ): FastifyInstance => {
   return Fastify({ logger });
-};
-
-const registerPlugins = async (
-  fastifyInstance: FastifyInstance
-): Promise<void> => {
-  for (const plugin of plugins) {
-    await fastifyInstance.register(plugin);
-  }
-};
-
-const registerSchemas = async (
-  fastifyInstance: FastifyInstance
-): Promise<void> => {
-  for (const schema of schemas) {
-    await fastifyInstance.addSchema(schema);
-  }
 };
 
 export const buildServer = async (logger: FastifyLoggerOptions) => {
@@ -66,6 +33,7 @@ export const buildServer = async (logger: FastifyLoggerOptions) => {
   await app.register(swaggerDocs);
 
   // Register Routes here
+  await registerRoutes(app);
 
   return app;
 };
