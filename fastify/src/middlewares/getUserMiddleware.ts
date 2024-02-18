@@ -22,7 +22,12 @@ const getUserMiddleware = async (
 
     if (!userProfile) {
       userProfile = await db
-        .select()
+        .select({
+          id: users.id,
+          email: users.email,
+          userName: profiles.userName,
+          subscriptions: subscriptions,
+        })
         .from(users)
         .leftJoin(profiles, eq(users.id, profiles.userId))
         .leftJoin(subscriptions, eq(users.id, subscriptions.userId))
@@ -30,7 +35,9 @@ const getUserMiddleware = async (
 
       await request.server.redis.set(
         `user:${userId}:profile`,
-        JSON.stringify(userProfile)
+        JSON.stringify(userProfile),
+        'EX',
+        60 * 60 * 24 // Cache for 24 hours
       );
     }
 
