@@ -6,6 +6,7 @@ import corsPlugin from '@plugins/cors';
 import helmetPlugin from '@plugins/helmet';
 import redisPlugin from '@plugins/redis';
 import initSuperTokens from '@plugins/auth/auth';
+import formDataPlugin from '@fastify/formbody';
 
 // Swagger Docs
 import swaggerDocs from '@plugins/swagger';
@@ -19,6 +20,7 @@ const plugins = [
   corsPlugin,
   helmetPlugin,
   redisPlugin,
+  formDataPlugin,
 ];
 
 export const createFastifyInstance = (
