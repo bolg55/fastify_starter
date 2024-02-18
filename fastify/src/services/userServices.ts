@@ -23,3 +23,9 @@ export const createUserAndProfile = async (
     }
   });
 };
+
+export const fetchUser = async (userId: string) => {
+  return db.query.users.findFirst({
+    where: eq(users.id, userId),
+  });
+};
