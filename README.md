@@ -4,6 +4,10 @@ This is a starter project for building APIs with Fastify. It comes preconfigured
 
 Meant to help you get started quickly with building APIs, this project is designed to be a starting point for building APIs with Fastify. It comes with a folder structure and configuration that is designed to be easy to understand and modify.
 
+## New - React frontend for testing
+
+I've added a new React frontend for testing the API. You can find it in the `frontend` folder. It is a simple react app built with vite and SWC.
+
 ## Core features
 
 - [x] Fastify

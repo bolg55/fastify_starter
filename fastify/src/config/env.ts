@@ -12,7 +12,7 @@ export const env = zennv({
       .default('https://try.supertokens.io'),
     SUPERTOKENS_API_KEY: z.string().default('tryout-supertokens-api-key'),
     API_DOMAIN: z.string().default('http://localhost:8080'),
-    WEBSITE_DOMAIN: z.string().default('http://localhost:3000'),
+    WEBSITE_DOMAIN: z.string().default('http://localhost:5173'),
     UPSTASH_REDIS_REST_TOKEN: z.string(),
     UPSTASH_REDIS_REST_URL: z.string(),
     STRIPE_SECRET_KEY: z.string(),
