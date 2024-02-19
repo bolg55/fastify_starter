@@ -37,8 +37,10 @@ const getUserMiddleware = async (
         `user:${userId}:profile`,
         JSON.stringify(userProfile),
         'EX',
-        60 * 60 * 24 // Cache for 24 hours
+        60 * 10 // Cache for 10 minutes
       );
+    } else {
+      userProfile = JSON.parse(userProfile);
     }
 
     request.userData = { userProfile }; // Use dedicated property for user data
