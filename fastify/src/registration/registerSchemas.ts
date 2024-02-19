@@ -1,8 +1,9 @@
 import { FastifyInstance } from 'fastify';
+import { meSchemas } from 'schemas/meSchemas';
 // Schema
 import { userSchemas } from 'schemas/userSchemas';
 
-const schemas = [...userSchemas];
+const schemas = [...userSchemas, ...meSchemas];
 
 export const registerSchemas = async (
   fastifyInstance: FastifyInstance
