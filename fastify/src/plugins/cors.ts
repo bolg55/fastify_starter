@@ -6,7 +6,7 @@ import supertokens from 'supertokens-node';
 
 const corsPlugin = async (fastify: FastifyInstance) => {
   await fastify.register(cors, {
-    origin: [env.API_DOMAIN],
+    origin: [env.API_DOMAIN, env.WEBSITE_DOMAIN],
     allowedHeaders: ['Content-Type', ...supertokens.getAllCORSHeaders()],
     methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
     credentials: true,
