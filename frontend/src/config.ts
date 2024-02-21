@@ -4,8 +4,8 @@ import Session from 'supertokens-auth-react/recipe/session';
 export const SuperTokensConfig = {
   appInfo: {
     appName: 'Fastify Starter',
-    apiDomain: 'https://fastifystarter-production.up.railway.app',
-    websiteDomain: 'http://localhost:5173',
+    apiDomain: import.meta.env.VITE_API_DOMAIN,
+    websiteDomain: import.meta.env.VITE_WEBSITE_DOMAIN,
     apiBasePath: '/api/auth',
     websiteBasePath: '/auth',
   },
