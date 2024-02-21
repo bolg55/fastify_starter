@@ -17,7 +17,9 @@ const main = async () => {
   await app.listen({ port: env.PORT, host: env.HOST });
 
   const signals = ['SIGINT', 'SIGTERM', 'SIGQUIT'];
-  logger.debug(env, 'Using environment variables');
+  process.env.NODE_ENV === 'development'
+    ? logger.debug(env, 'Using environment variables')
+    : logger.info('Running in production mode');
 
   signals.forEach((signal) => {
     process.on(signal, async () => {

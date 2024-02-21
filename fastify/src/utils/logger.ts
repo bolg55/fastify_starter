@@ -5,6 +5,8 @@ export const logger = pino({
     'DATABASE_CONNECTION',
     'SUPERTOKENS_API_KEY',
     'UPSTASH_REDIS_REST_TOKEN',
+    'STRIPE_SECRET_KEY',
+    'STRIPE_PUBLIC_KEY',
   ],
   level: 'debug',
   transport: {
