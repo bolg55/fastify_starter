@@ -1,3 +1,4 @@
+import { createStripeCustomerAndUpdateSubscription } from 'services/stripeServices';
 import { createUserAndProfile } from 'services/userServices';
 import { RecipeInterface } from 'supertokens-node/recipe/thirdpartypasswordless/types';
 
@@ -8,7 +9,7 @@ const thirdPartySignInUpOverride =
 
     if (response.status === 'OK') {
       let { id, emails } = response.user;
-      console.log('USER SIGNED UP', id);
+
       await createUserAndProfile(id, emails[0]);
 
       // This is the response from the OAuth 2 provider that contains their tokens or user info.
@@ -20,7 +21,7 @@ const thirdPartySignInUpOverride =
         response.createdNewRecipeUser &&
         response.user.loginMethods.length === 1
       ) {
-        // TODO: Post sign up logic
+        await createStripeCustomerAndUpdateSubscription(id, emails[0]);
       } else {
         // TODO: Post sign in logic
       }
