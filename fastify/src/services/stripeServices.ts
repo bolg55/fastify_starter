@@ -29,3 +29,16 @@ export const createStripeCustomerAndUpdateSubscription = async (
     }
   }
 };
+
+export const getStripeSubTier = async (subscription: Stripe.Subscription) => {
+  // Assuming your plan names are stored in the product metadata
+  const productId = subscription.items.data[0].plan.product;
+
+  if (typeof productId !== 'string') {
+    throw new Error('Invalid product ID');
+  }
+
+  const product = await stripe.products.retrieve(productId);
+
+  return product.name || 'default'; // Return the name, or a default
+};
