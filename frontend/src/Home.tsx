@@ -1,6 +1,37 @@
+import { useEffect, useState } from 'react';
+import { getMe } from './utils';
+import { signOut } from 'supertokens-auth-react/recipe/thirdpartypasswordless';
+
 const Home = () => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    const response = getMe();
+    response.then((data) => {
+      setData(data.message);
+    });
+  }, []);
+
+  const logout = async () => {
+    await signOut();
+    window.location.href = '/';
+  };
+
+  const handleClick = async () => {
+    data === 'unauthorised' ? window.location.assign('/auth') : await logout();
+  };
+
   return (
     <div className='max-w-4xl'>
+      <div className='flex justify-end'>
+        <button
+          onClick={handleClick}
+          className='bg-indigo-500 rounded px-4 py-2 hover:bg-indigo-700 transition-all duration-100'
+        >
+          {data === 'unauthorised' ? 'Sign In' : 'Sign Out'}
+        </button>
+      </div>
+
       <h1 className='text-6xl text-center mb-6'>Welcome to the frontend</h1>
 
       <p>
@@ -21,7 +52,7 @@ const Home = () => {
           >
             /auth
           </a>{' '}
-          page to log in or sign up
+          page to log in or sign up. Or click the SIGN IN button above.
         </li>
       </ol>
 

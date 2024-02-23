@@ -1,11 +1,5 @@
 import { useState } from 'react';
-
-const getMe = async () => {
-  const response = await fetch(
-    'https://fastifystarter-production.up.railway.app/me'
-  );
-  return response.json(); // Return the parsed data directly
-};
+import { getMe } from './utils';
 
 const Secret = () => {
   const [data, setData] = useState(null);
