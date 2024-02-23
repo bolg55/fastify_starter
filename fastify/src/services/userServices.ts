@@ -1,6 +1,6 @@
 import { db } from '@db/index';
 import { eq } from 'drizzle-orm';
-import { profiles, users } from '@db/schema';
+import { profiles, subscriptions, users } from '@db/schema';
 
 export const createUserAndProfile = async (
   id: string,
@@ -18,6 +18,9 @@ export const createUserAndProfile = async (
         email,
       });
       await trx.insert(profiles).values({
+        userId: id,
+      });
+      await trx.insert(subscriptions).values({
         userId: id,
       });
     }
