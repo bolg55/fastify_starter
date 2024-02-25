@@ -1,5 +1,5 @@
 {
-  "id": "bae0813a-e7b2-4ed6-a526-face0b28a767",
+  "id": "346435e7-7aa3-4043-b2d4-c1e0bc32d024",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -8,8 +8,8 @@
       "name": "profiles",
       "schema": "",
       "columns": {
-        "profile_id": {
-          "name": "profile_id",
+        "id": {
+          "name": "id",
           "type": "serial",
           "primaryKey": true,
           "notNull": true
@@ -64,8 +64,8 @@
       "name": "subscriptions",
       "schema": "",
       "columns": {
-        "sub_id": {
-          "name": "sub_id",
+        "id": {
+          "name": "id",
           "type": "serial",
           "primaryKey": true,
           "notNull": true

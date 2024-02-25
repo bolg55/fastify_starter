@@ -25,7 +25,7 @@ export const usersRelations = relations(users, ({ one, many }) => ({
 }));
 
 export const profiles = pgTable('profiles', {
-  profileId: serial('profile_id').primaryKey(),
+  id: serial('id').primaryKey(),
   userId: uuid('user_id').references(() => users.id, {
     onDelete: 'cascade',
   }),
@@ -35,7 +35,7 @@ export const profiles = pgTable('profiles', {
 });
 
 export const subscriptions = pgTable('subscriptions', {
-  subId: serial('sub_id').primaryKey(),
+  id: serial('id').primaryKey(),
   userId: uuid('user_id').references(() => users.id, {
     onDelete: 'cascade',
   }),

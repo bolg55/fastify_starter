@@ -1,5 +1,5 @@
 CREATE TABLE IF NOT EXISTS "profiles" (
-	"profile_id" serial PRIMARY KEY NOT NULL,
+	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" uuid,
 	"user_name" varchar(255),
 	"created_at" timestamp DEFAULT now() NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS "profiles" (
 );
 
 CREATE TABLE IF NOT EXISTS "subscriptions" (
-	"sub_id" serial PRIMARY KEY NOT NULL,
+	"id" serial PRIMARY KEY NOT NULL,
 	"user_id" uuid,
 	"stripe_customer_id" varchar(255),
 	"stripe_subscription_id" varchar(255),
