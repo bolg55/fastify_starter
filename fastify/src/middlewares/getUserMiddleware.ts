@@ -1,7 +1,7 @@
 import Session from 'supertokens-node/recipe/session';
 import { db } from '@db/index'; // Ensure correct import path
 import { FastifyReply, FastifyRequest } from 'fastify';
-import { profiles, subscriptions, users } from '@db/schema';
+import { users } from '@db/schema';
 import { eq } from 'drizzle-orm';
 
 const getUserMiddleware = async (
@@ -21,17 +21,13 @@ const getUserMiddleware = async (
     }
 
     if (!userProfile) {
-      userProfile = await db
-        .select({
-          id: users.id,
-          email: users.email,
-          userName: profiles.userName,
-          subscriptions: subscriptions,
-        })
-        .from(users)
-        .leftJoin(profiles, eq(users.id, profiles.userId))
-        .leftJoin(subscriptions, eq(users.id, subscriptions.userId))
-        .where(eq(users.id, userId));
+      userProfile = await db.query.users.findFirst({
+        where: eq(users.id, userId),
+        with: {
+          profile: true,
+          subscriptions: true,
+        },
+      });
 
       await request.server.redis.set(
         `user:${userId}:profile`,
