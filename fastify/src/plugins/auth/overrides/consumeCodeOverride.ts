@@ -1,5 +1,5 @@
 import { createStripeCustomerAndUpdateSubscription } from 'services/stripeServices';
-import { createUserAndProfile } from 'services/userServices';
+import { createUser } from 'services/userServices';
 import { RecipeInterface } from 'supertokens-node/recipe/thirdpartypasswordless/types';
 
 const consumeCodeOverride =
@@ -10,7 +10,7 @@ const consumeCodeOverride =
     if (response.status === 'OK') {
       const { id, emails } = response.user;
 
-      await createUserAndProfile(id, emails[0]);
+      await createUser(id, emails[0]);
 
       if (
         response.createdNewRecipeUser &&
