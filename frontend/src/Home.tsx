@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getMe } from './utils';
+import { getMe, getCustomerPortalUrl } from './utils';
 import { signOut } from 'supertokens-auth-react/recipe/thirdpartypasswordless';
 
 const Home = () => {
@@ -21,18 +21,35 @@ const Home = () => {
     data === 'unauthorised' ? window.location.assign('/auth') : await logout();
   };
 
+  const handleBillingPortal = async () => {
+    const { url, status, message } = await getCustomerPortalUrl();
+    if (status === 'success') {
+      window.location.href = url;
+    } else {
+      console.error(message);
+    }
+  };
+
   return (
     <div className='max-w-4xl'>
-      <div className='flex justify-end'>
+      <div className='flex justify-end space-x-4'>
         <button
           onClick={handleClick}
-          className='bg-indigo-500 rounded px-4 py-2 hover:bg-indigo-700 transition-all duration-100'
+          className='px-4 py-2 transition-all duration-100 bg-indigo-500 rounded hover:bg-indigo-700'
         >
           {data === 'unauthorised' ? 'Sign In' : 'Sign Out'}
         </button>
+        {data !== 'unauthorised' && (
+          <button
+            onClick={handleBillingPortal}
+            className='px-4 py-2 transition-all duration-100 bg-green-500 rounded hover:bg-green-700'
+          >
+            Billing Portal
+          </button>
+        )}
       </div>
 
-      <h1 className='text-6xl text-center mb-6'>Welcome to the frontend</h1>
+      <h1 className='mb-6 text-6xl text-center'>Welcome to the frontend</h1>
 
       <p>
         The main purpose of this frontend is to test login flow and
@@ -40,14 +57,14 @@ const Home = () => {
         and can serve for the basis of a more complex frontend.
       </p>
 
-      <h2 className='text-4xl font-semibold text-blue-400 mt-8 mb-2'>
+      <h2 className='mt-8 mb-2 text-4xl font-semibold text-blue-400'>
         To start:
       </h2>
       <ol>
         <li>
           Head to the{' '}
           <a
-            className='text-indigo-400 font-semibold bg-slate-50 px-2 rounded'
+            className='px-2 font-semibold text-indigo-400 rounded bg-slate-50'
             href='/auth'
           >
             /auth
@@ -56,13 +73,13 @@ const Home = () => {
         </li>
       </ol>
 
-      <h2 className='text-4xl font-semibold text-red-400 mt-8 mb-2'>
+      <h2 className='mt-8 mb-2 text-4xl font-semibold text-red-400'>
         If a user is not logged in:
       </h2>
       <p>
         Going to{' '}
         <a
-          className='text-indigo-400 font-semibold bg-slate-50 px-2 rounded'
+          className='px-2 font-semibold text-indigo-400 rounded bg-slate-50'
           href='/secret'
         >
           /secret
@@ -70,13 +87,13 @@ const Home = () => {
         should result in a redirect to the <span>/auth</span> page
       </p>
 
-      <h2 className='text-4xl font-semibold text-green-400 mt-8 mb-2'>
+      <h2 className='mt-8 mb-2 text-4xl font-semibold text-green-400'>
         If a user is logged in:
       </h2>
       <p>
         Going to{' '}
         <a
-          className='text-indigo-400 font-semibold bg-slate-50 px-2 rounded'
+          className='px-2 font-semibold text-indigo-400 rounded bg-slate-50'
           href='/secret'
         >
           /secret
