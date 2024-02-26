@@ -15,6 +15,13 @@
       "when": 1708892943696,
       "tag": "0001_mean_galactus",
       "breakpoints": false
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1708919112646,
+      "tag": "0002_stale_ultimates",
+      "breakpoints": false
     }
   ]
 }
