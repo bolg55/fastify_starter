@@ -6,7 +6,8 @@ export const stripeCustomerPortalHandler = async (
   reply: FastifyReply
 ) => {
   try {
-    const { custId } = request.userData?.userProfile.subscriptions[0];
+    const custId =
+      request.userData?.userProfile.subscriptions[0].stripeCustomerId;
 
     console.log('CUST ID:', custId);
 
