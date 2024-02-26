@@ -1,41 +1,45 @@
+import { env } from '@config/env';
+import { stripe } from '@config/stripeConfig';
 import { FastifyReply, FastifyRequest } from 'fastify';
-
 export const stripeCustomerPortalHandler = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
   try {
-    const fetchedUser = request.userData?.userProfile;
+    const { custId } = request.userData?.userProfile.subscriptions[0];
 
-    console.log('USER PROFILE:', fetchedUser);
+    console.log('CUST ID:', custId);
 
-    if (!fetchedUser) {
-      // Send error response
+    if (!custId) {
       reply.code(404).send({
-        status: 'error' as 'error',
-        message: 'User not found',
+        status: 'error',
+        message: 'Stripe customer ID not found',
       });
       return;
     }
 
-    // Send success response
+    const { url } = await stripe.billingPortal.sessions.create({
+      customer: custId,
+      return_url: `${env.WEBSITE_DOMAIN}/secret`,
+    });
+
     reply.code(200).send({
-      status: 'success' as 'success',
-      message: 'User fetched successfully',
-      data: fetchedUser,
+      status: 'success',
+      message: 'Billing portal session created successfully',
+      json: { url },
     });
   } catch (error) {
-    // Type-guard to ensure error has a 'message' property
     if (error instanceof Error) {
-      request.log.error(`Error fetching user: ${error.message}`); // Safe to access 'message'
+      request.log.error(
+        `Error creating billing portal session: ${error.message}`
+      );
     } else {
-      request.log.error('Unknown error occurred'); // Handle non-Error instances
+      request.log.error('Unknown error occurred');
     }
 
-    // Send error response
     reply.code(500).send({
-      status: 'error' as 'error',
-      message: 'Failed to fetch user',
+      status: 'error',
+      message: 'Failed to create billing portal session',
     });
   }
 };
