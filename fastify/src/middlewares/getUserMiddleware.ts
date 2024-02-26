@@ -24,8 +24,20 @@ const getUserMiddleware = async (
       userProfile = await db.query.users.findFirst({
         where: eq(users.id, userId),
         with: {
-          profile: true,
-          subscriptions: true,
+          profile: {
+            columns: {
+              userId: true,
+              userName: true,
+            },
+          },
+          subscriptions: {
+            columns: {
+              stripeCustomerId: true,
+              isActive: true,
+              subStatus: true,
+              cancelAtPeriodEnd: true,
+            },
+          },
         },
       });
 
