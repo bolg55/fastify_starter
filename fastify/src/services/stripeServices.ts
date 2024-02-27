@@ -11,18 +11,18 @@ export const createStripeCustomerAndUpdateSubscription = async (
   try {
     const stripeCustomer = await stripe.customers.create({ email });
 
-    await db
-      .update(subscriptions)
-      .set({ stripeCustomerId: stripeCustomer.id })
-      .where(eq(subscriptions.userId, userId));
+    await db.transaction(async (tx) => {
+      await tx
+        .update(subscriptions)
+        .set({ stripeCustomerId: stripeCustomer.id })
+        .where(eq(subscriptions.userId, userId));
+    });
   } catch (error) {
-    console.error(
-      'Error creating Stripe customer or updating subscriptions:',
-      error
-    );
+    console.error(`Error for user ${userId} (${email}):`, error);
     if (error instanceof Stripe.errors.StripeError) {
       throw new Error(
-        'There was an issue with the provided email. Please try again.'
+        'There was an issue with the provided email. Please try again.',
+        error
       );
     } else {
       throw new Error('An unexpected error occurred. Please try again later.');
