@@ -1,8 +1,27 @@
 import { z } from 'zod';
 import { buildJsonSchemas } from 'fastify-zod';
 
-const updateUserSchema = z.object({
-  userName: z.string().optional(),
+const updateUserResponseSchema = z.object({
+  status: z.literal('success'),
+  message: z.string(),
+  data: z.object({
+    id: z.string(),
+    userName: z.string().nullable(),
+  }),
+});
+
+const updateUserErrorSchema = z.object({
+  status: z.literal('error'),
+  message: z.string(),
+});
+
+const updateUserSchema = z.union([
+  updateUserResponseSchema,
+  updateUserErrorSchema,
+]);
+
+const updateUserRequestBodySchema = z.object({
+  userName: z.string(),
 });
 
 const userProfileSchema = z.object({
@@ -47,6 +66,7 @@ export const { schemas: meSchemas, $ref } = buildJsonSchemas(
   {
     getMeResponseSchema,
     updateUserSchema,
+    updateUserRequestBodySchema,
   },
   {
     $id: 'meSchemas',

@@ -19,6 +19,7 @@ const meRoutes = async (server: FastifyInstance) => {
   server.patch('/me', {
     schema: {
       tags: ['Me'],
+      body: $ref('updateUserRequestBodySchema'),
       response: {
         200: $ref('updateUserSchema'),
       },
