@@ -5,9 +5,7 @@ import { getMeHandler, updateMeHandler } from 'controllers/meControllers';
 import { $ref } from 'schemas/meSchemas';
 
 const meRoutes = async (server: FastifyInstance) => {
-  server.route({
-    method: 'GET',
-    url: '/me',
+  server.get('/me', {
     schema: {
       tags: ['Me'],
     },
@@ -15,9 +13,7 @@ const meRoutes = async (server: FastifyInstance) => {
     handler: getMeHandler,
   });
 
-  server.route({
-    method: 'PATCH',
-    url: '/me',
+  server.patch('/me', {
     schema: {
       tags: ['Me'],
       response: {

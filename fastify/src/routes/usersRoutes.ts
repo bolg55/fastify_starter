@@ -3,9 +3,7 @@ import { getUserHandler } from 'controllers/usersControllers';
 import { $ref } from 'schemas/userSchemas';
 
 const userRoutes = async (server: FastifyInstance) => {
-  server.route({
-    method: 'GET',
-    url: '/:userId',
+  server.get('/:userId', {
     schema: {
       tags: ['Users'],
       response: {
