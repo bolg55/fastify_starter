@@ -38,6 +38,8 @@ export const updateMeHandler = async (
   const userId = userProfile[0].id;
   const { userName } = request.body;
 
+  console.log('USER PROFILE', userProfile);
+
   await db
     .update(profiles)
     .set({ userName })
