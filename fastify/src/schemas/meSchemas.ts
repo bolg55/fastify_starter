@@ -48,8 +48,8 @@ const userSubscriptionSchema = z.object({
 });
 
 const userSchema = z.object({
-  email: z.string().email(),
   id: z.string().uuid(),
+  email: z.string().email(),
   profile: userProfileSchema,
   subscriptions: z.array(userSubscriptionSchema),
   createdAt: z.string(),

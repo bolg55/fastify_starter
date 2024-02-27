@@ -45,7 +45,10 @@ export const updateMeHandler = async (
 
   const updatedUserProfile = {
     ...userProfile,
-    userName,
+    profile: {
+      ...userProfile?.profile,
+      userName,
+    },
   };
 
   await request.server.redis.set(

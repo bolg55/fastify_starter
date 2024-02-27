@@ -6,9 +6,11 @@ declare module 'fastify' {
     userData?: {
       userProfile?: {
         id: string;
-        userId: string;
-        userName: string | null;
         email: string;
+        profile: {
+          userId: string;
+          userName: string | null;
+        };
         subscriptions: {
           cancelAtPeriodEnd: boolean;
           isActive: boolean;

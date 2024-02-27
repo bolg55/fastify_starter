@@ -10,7 +10,7 @@ export const stripeCustomerPortalHandler = async (
   reply: FastifyReply
 ) => {
   const custId =
-    request.userData?.userProfile.subscriptions[0]?.stripeCustomerId;
+    request.userData?.userProfile?.subscriptions[0]?.stripeCustomerId;
 
   if (!custId) {
     return reply.code(404).send({
@@ -36,7 +36,7 @@ export const stripeCheckoutSessionHandler = async (
   reply: FastifyReply
 ) => {
   const { priceId } = request.body as { priceId: string };
-  const userId = request.userData?.userProfile.id;
+  const userId = request.userData?.userProfile?.id;
 
   // Handle errors
   if (!userId) {
