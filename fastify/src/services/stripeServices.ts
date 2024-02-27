@@ -21,8 +21,7 @@ export const createStripeCustomerAndUpdateSubscription = async (
     console.error(`Error for user ${userId} (${email}):`, error);
     if (error instanceof Stripe.errors.StripeError) {
       throw new Error(
-        'There was an issue with the provided email. Please try again.',
-        error
+        'There was an issue with the provided email. Please try again.'
       );
     } else {
       throw new Error('An unexpected error occurred. Please try again later.');
@@ -31,8 +30,7 @@ export const createStripeCustomerAndUpdateSubscription = async (
 };
 
 export const getStripeSubTier = async (subscription: Stripe.Subscription) => {
-  // Assuming your plan names are stored in the product metadata
-  const productId = subscription.items.data[0].plan.product;
+  const productId = subscription.items.data[0].price.product;
 
   if (typeof productId !== 'string') {
     throw new Error('Invalid product ID');
