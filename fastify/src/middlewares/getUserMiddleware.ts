@@ -9,6 +9,8 @@ const getUserMiddleware = async (
   const session = await Session.getSession(request, reply);
   const userId = session.getUserId();
 
+  console.log('USERID_MIDDLEWARE', userId);
+
   let cachedProfile = await request.server.redis.get(`user:${userId}:profile`);
   let userProfile;
 

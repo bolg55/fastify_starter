@@ -35,10 +35,8 @@ export const updateMeHandler = async (
   reply: FastifyReply
 ) => {
   const userProfile = request.userData?.userProfile;
-  const userId = userProfile[0].id;
+  const userId = userProfile.id;
   const { userName } = request.body;
-
-  console.log('USER PROFILE', userProfile);
 
   await db
     .update(profiles)
@@ -46,7 +44,7 @@ export const updateMeHandler = async (
     .where(eq(profiles.userId, userId));
 
   const updatedUserProfile = {
-    ...userProfile[0],
+    ...userProfile,
     userName,
   };
 
