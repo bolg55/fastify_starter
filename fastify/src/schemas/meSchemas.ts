@@ -21,7 +21,7 @@ const updateUserSchema = z.union([
 ]);
 
 const updateUserRequestBodySchema = z.object({
-  userName: z.string(),
+  userName: z.string().nullable(),
 });
 
 const userProfileSchema = z.object({
@@ -31,18 +31,20 @@ const userProfileSchema = z.object({
 
 const userSubscriptionSchema = z.object({
   cancelAtPeriodEnd: z.boolean(),
-  isActive: z.boolean(),
+  isActive: z.boolean().default(false),
   stripeCustomerId: z.string(),
-  subStatus: z.enum([
-    'trialing',
-    'active',
-    'canceled',
-    'incomplete',
-    'incomplete_expired',
-    'past_due',
-    'unpaid',
-    'no_subscription',
-  ]),
+  subStatus: z
+    .enum([
+      'trialing',
+      'active',
+      'canceled',
+      'incomplete',
+      'incomplete_expired',
+      'past_due',
+      'unpaid',
+      'no_subscription',
+    ])
+    .default('no_subscription'),
 });
 
 const userSchema = z.object({
