@@ -23,11 +23,11 @@ const userSubscriptionSchema = z.object({
 });
 
 const userSchema = z.object({
-  createdAt: z.string(),
   email: z.string().email(),
   id: z.string().uuid(),
   profile: userProfileSchema,
   subscriptions: z.array(userSubscriptionSchema),
+  createdAt: z.string(),
   updatedAt: z.string(),
 });
 

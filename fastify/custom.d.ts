@@ -9,13 +9,14 @@ declare module 'fastify' {
         userId: string;
         userName: string | null;
         email: string;
-        updatedAt: string;
         subscriptions: {
           cancelAtPeriodEnd: boolean;
           isActive: boolean;
           stripeCustomerId: string;
           subStatus: string;
         }[];
+        createdAt: string;
+        updatedAt: string;
       };
     };
     session?: SessionRequest['session'];
