@@ -1,10 +1,24 @@
 import { FastifyReply, FastifyRequest } from 'fastify';
+import { SessionRequest } from 'supertokens-node/framework/fastify';
 
 declare module 'fastify' {
   interface FastifyRequest {
     userData?: {
-      userProfile?: any; // Adjust type based on your user profile structure
+      userProfile?: {
+        id: string;
+        userId: string;
+        userName: string | null;
+        email: string;
+        updatedAt: string;
+        subscriptions: {
+          cancelAtPeriodEnd: boolean;
+          isActive: boolean;
+          stripeCustomerId: string;
+          subStatus: string;
+        }[];
+      };
     };
+    session?: SessionRequest['session'];
   }
   interface FastifyInstance {
     verifyQstashToken: (

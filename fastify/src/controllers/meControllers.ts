@@ -35,7 +35,7 @@ export const updateMeHandler = async (
   reply: FastifyReply
 ) => {
   const userProfile = request.userData?.userProfile;
-  const userId = userProfile.id;
+  const userId = userProfile!.id;
   const { userName } = request.body;
 
   await db

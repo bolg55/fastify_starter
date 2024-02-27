@@ -1,9 +1,8 @@
-import { FastifyReply } from 'fastify';
+import { FastifyReply, FastifyRequest } from 'fastify';
 import { fetchUser } from 'services/userServices';
-import { SessionRequest } from 'supertokens-node/framework/fastify';
 
 const getUserMiddleware = async (
-  request: SessionRequest,
+  request: FastifyRequest,
   reply: FastifyReply
 ) => {
   const userId = request.session!.getUserId();
