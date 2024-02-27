@@ -8,6 +8,9 @@ const meRoutes = async (server: FastifyInstance) => {
   server.get('/me', {
     schema: {
       tags: ['Me'],
+      response: {
+        200: $ref('getMeResponseSchema'),
+      },
     },
     preHandler: [verifySession(), getUserMiddleware],
     handler: getMeHandler,

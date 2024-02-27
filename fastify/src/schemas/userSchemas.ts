@@ -1,46 +1,50 @@
 import { z } from 'zod';
 import { buildJsonSchemas } from 'fastify-zod';
 
-const userCore = {
-  name: z.string().optional(),
-  email: z
-    .string({
-      required_error: 'Email is required',
-      invalid_type_error: 'Email must be a string',
-    })
-    .email(),
-};
-
-const createUserSchema = z.object({
-  ...userCore,
+const userProfileSchema = z.object({
+  userId: z.string().uuid(),
+  userName: z.string().nullable(),
 });
 
-const createUserResponseSchema = z.object({
-  id: z.string().uuid(),
-  ...userCore,
+const userSubscriptionSchema = z.object({
+  cancelAtPeriodEnd: z.boolean(),
+  isActive: z.boolean(),
+  stripeCustomerId: z.string(),
+  subStatus: z.enum([
+    'trialing',
+    'active',
+    'canceled',
+    'incomplete',
+    'incomplete_expired',
+    'past_due',
+    'unpaid',
+    'no_subscription',
+  ]),
 });
 
-const getUserResponse = z.object({
+const userSchema = z.object({
+  createdAt: z.string(),
+  email: z.string().email(),
   id: z.string().uuid(),
-  ...userCore,
+  profile: userProfileSchema,
+  subscriptions: z.array(userSubscriptionSchema),
+  updatedAt: z.string(),
 });
 
 const getUserResponseSchema = z.object({
-  status: z.string(),
+  status: z.enum(['success', 'error']),
   message: z.string(),
-  data: getUserResponse,
+  data: userSchema.optional(),
 });
 
 const userIdParamsSchema = z.object({
   userId: z.string().uuid(),
 });
 
-export type CreateUserInput = z.infer<typeof createUserSchema>;
+export type GetUserResponse = z.infer<typeof getUserResponseSchema>;
 
 export const { schemas: userSchemas, $ref } = buildJsonSchemas(
   {
-    createUserSchema,
-    createUserResponseSchema,
     getUserResponseSchema,
     userIdParamsSchema,
   },

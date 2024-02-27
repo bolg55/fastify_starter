@@ -30,5 +30,21 @@ export const createUser = async (id: string, email: string): Promise<void> => {
 export const fetchUser = async (userId: string) => {
   return db.query.users.findFirst({
     where: eq(users.id, userId),
+    with: {
+      profile: {
+        columns: {
+          userId: true,
+          userName: true,
+        },
+      },
+      subscriptions: {
+        columns: {
+          stripeCustomerId: true,
+          isActive: true,
+          subStatus: true,
+          cancelAtPeriodEnd: true,
+        },
+      },
+    },
   });
 };
