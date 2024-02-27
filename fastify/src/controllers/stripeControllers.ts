@@ -19,28 +19,16 @@ export const stripeCustomerPortalHandler = async (
     });
   }
 
-  try {
-    const { url } = await stripe.billingPortal.sessions.create({
-      customer: custId,
-      return_url: `${baseURL}/secret`,
-    });
+  const { url } = await stripe.billingPortal.sessions.create({
+    customer: custId,
+    return_url: `${baseURL}/secret`,
+  });
 
-    return reply.code(200).send({
-      status: 'success',
-      message: 'Billing portal session created successfully',
-      url,
-    });
-  } catch (error) {
-    request.log.error(
-      `Error creating billing portal session: ${
-        error instanceof Error ? error.message : 'Unknown error'
-      }`
-    );
-    return reply.code(500).send({
-      status: 'error',
-      message: 'Failed to create billing portal session',
-    });
-  }
+  return reply.code(200).send({
+    status: 'success',
+    message: 'Billing portal session created successfully',
+    url,
+  });
 };
 
 export const stripeCheckoutSessionHandler = async (
@@ -50,6 +38,15 @@ export const stripeCheckoutSessionHandler = async (
   const { priceId } = request.body as { priceId: string };
   const userId = request.userData?.userProfile.id;
 
+  // Handle errors
+  if (!userId) {
+    return reply.code(404).send({
+      status: 'error',
+      message: 'User ID not found',
+    });
+  }
+
+  // Create a new checkout session
   const params: Stripe.Checkout.SessionCreateParams = {
     mode: 'subscription',
     payment_method_types: ['card'],
@@ -70,16 +67,6 @@ export const stripeCheckoutSessionHandler = async (
       },
     },
   };
-
-  // Handle errors
-  if (!userId) {
-    return reply.code(404).send({
-      status: 'error',
-      message: 'User ID not found',
-    });
-  }
-
-  // Create a new checkout session
 
   const checkoutSession = await stripe.checkout.sessions.create(params);
   return reply.code(200).send({
