@@ -1,6 +1,7 @@
 import { stripe } from '@config/stripeConfig';
 import { db } from '@db/index';
 import { subscriptions } from '@db/schema';
+import { timestampToDate } from '@utils/timestampToDate';
 import { eq } from 'drizzle-orm';
 import Stripe from 'stripe';
 
@@ -39,4 +40,44 @@ export const getStripeSubTier = async (subscription: Stripe.Subscription) => {
   const product = await stripe.products.retrieve(productId);
 
   return product.name || 'default'; // Return the name, or a default
+};
+
+export const updateStripeSubscription = async (
+  subscription: Stripe.Subscription
+) => {
+  const subTier = await getStripeSubTier(subscription);
+
+  await db.transaction(async (tx) => {
+    await tx
+      .update(subscriptions)
+      .set({
+        isActive: true,
+        subStatus: subscription.status,
+        subTier,
+        cancelAtPeriodEnd: subscription.cancel_at_period_end,
+        canceledAtDate: timestampToDate(subscription.canceled_at as number),
+      })
+      .where(
+        eq(subscriptions.stripeCustomerId, subscription.customer as string)
+      );
+  });
+};
+
+export const cancelStripeSubscription = async (
+  subscription: Stripe.Subscription
+) => {
+  await db.transaction(async (tx) => {
+    await tx
+      .update(subscriptions)
+      .set({
+        isActive: false,
+        subStatus: subscription.status,
+        subTier: '',
+        cancelAtPeriodEnd: subscription.cancel_at_period_end,
+        canceledAtDate: timestampToDate(subscription.canceled_at as number),
+      })
+      .where(
+        eq(subscriptions.stripeCustomerId, subscription.customer as string)
+      );
+  });
 };

@@ -1,6 +1,10 @@
 import { env } from '@config/env';
 import { stripe } from '@config/stripeConfig';
 import { FastifyReply, FastifyRequest } from 'fastify';
+import {
+  cancelStripeSubscription,
+  updateStripeSubscription,
+} from 'services/stripeServices';
 import Stripe from 'stripe';
 
 const baseURL = env.WEBSITE_DOMAIN;
@@ -74,4 +78,53 @@ export const stripeCheckoutSessionHandler = async (
     message: 'Checkout session created successfully',
     sessionId: checkoutSession.id,
   });
+};
+
+export const stripeWebhookHandler = async (
+  request: FastifyRequest,
+  reply: FastifyReply
+) => {
+  const sig = request.headers['stripe-signature'] as string;
+  const endpointSecret = env.STRIPE_SECRET_KEY;
+  const rawBody = request.rawBody;
+
+  let event: Stripe.Event;
+  try {
+    event = stripe.webhooks.constructEvent(
+      rawBody as Buffer,
+      sig,
+      endpointSecret
+    );
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(`⚠️  Webhook signature verification failed.`, err.message);
+      return reply.code(400).send(`Webhook signature verification failed.`);
+    }
+    return reply.code(400).send(`Webhook signature verification failed.`);
+  }
+
+  switch (event.type) {
+    case 'customer.subscription.created':
+    case 'customer.subscription.updated': {
+      const subscription = event.data.object as Stripe.Subscription;
+
+      await updateStripeSubscription(subscription);
+      break;
+    }
+    case 'customer.subscription.deleted': {
+      const subscription = event.data.object as Stripe.Subscription;
+      await cancelStripeSubscription(subscription);
+      break;
+    }
+    case 'payment_intent.succeeded':
+      // const paymentIntent = event.data.object
+      console.log('PaymentIntent was successful!');
+      break;
+    default:
+      console.error('Event type not supported');
+      return;
+  }
+
+  reply.code(200).send({ received: true });
+  return;
 };

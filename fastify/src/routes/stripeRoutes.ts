@@ -1,6 +1,7 @@
 import {
   stripeCheckoutSessionHandler,
   stripeCustomerPortalHandler,
+  stripeWebhookHandler,
 } from 'controllers/stripeControllers';
 import { FastifyInstance } from 'fastify';
 import getUserMiddleware from 'middlewares/getUserMiddleware';
@@ -21,6 +22,12 @@ const stripeRoutes = async (server: FastifyInstance) => {
     },
     preHandler: [verifySession(), getUserMiddleware],
     handler: stripeCheckoutSessionHandler,
+  });
+  server.post('/webhook', {
+    schema: {
+      tags: ['Stripe'],
+    },
+    handler: stripeWebhookHandler,
   });
 };
 
