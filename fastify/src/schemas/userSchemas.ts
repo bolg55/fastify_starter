@@ -18,6 +18,7 @@ const userSubscriptionSchema = z.object({
     'incomplete_expired',
     'past_due',
     'unpaid',
+    'paused',
     'no_subscription',
   ]),
 });

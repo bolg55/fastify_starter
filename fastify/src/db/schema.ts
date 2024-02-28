@@ -42,6 +42,7 @@ export const subStatus = pgEnum('sub_status', [
   'incomplete_expired',
   'past_due',
   'unpaid',
+  'paused',
   'no_subscription',
 ]);
 
@@ -53,6 +54,7 @@ export const subscriptions = pgTable('subscriptions', {
   stripeCustomerId: varchar('stripe_customer_id', { length: 255 }),
   stripeSubscriptionId: varchar('stripe_subscription_id', { length: 255 }),
   isActive: boolean('is_active').notNull().default(false),
+  subTier: varchar('sub_tier', { length: 255 }),
   subStatus: subStatus('sub_status').notNull().default('no_subscription'),
   createdAt: timestamp('created_at').notNull().defaultNow(),
   updatedAt: timestamp('updated_at').notNull().defaultNow(),
