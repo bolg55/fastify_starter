@@ -5,6 +5,7 @@ import { plugin } from 'supertokens-node/framework/fastify';
 import corsPlugin from '@plugins/cors';
 import helmetPlugin from '@plugins/helmet';
 import redisPlugin from '@plugins/redis';
+import rawBodyPlugin from '@plugins/rawBody';
 import initSuperTokens from '@plugins/auth/auth';
 import formDataPlugin from '@fastify/formbody';
 
@@ -14,6 +15,7 @@ const plugins = [
   corsPlugin,
   helmetPlugin,
   redisPlugin,
+  rawBodyPlugin,
   formDataPlugin,
 ];
 
