@@ -66,7 +66,7 @@ const Home = () => {
       </div>
 
       <h1 className='mb-6 text-6xl text-center'>
-        Welcome to the frontend
+        Welcome to the front end
         {data !== 'unauthorised' && `, ${userName ? userName : 'User'}`}
       </h1>
       {data !== 'unauthorised' && (
