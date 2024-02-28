@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react';
-import { getMe, getCustomerPortalUrl } from './utils';
+import React, { useEffect, useState } from 'react';
+import { getMe, getCustomerPortalUrl, updateMe } from './utils';
 import { signOut } from 'supertokens-auth-react/recipe/thirdpartypasswordless';
 
 const Home = () => {
   const [data, setData] = useState(null);
+  const [userName, setUserName] = useState('');
+  const [newUserName, setNewUserName] = useState('');
 
   useEffect(() => {
     const response = getMe();
     response.then((data) => {
       setData(data.message);
+      setUserName(data.data.profile.userName);
     });
   }, []);
 
@@ -30,26 +33,64 @@ const Home = () => {
     }
   };
 
+  const handleUpdateUserName = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { status, message } = await updateMe({ userName: newUserName });
+    if (status === 'success') {
+      setUserName(newUserName);
+      setNewUserName('');
+      alert('Username updated successfully!');
+    } else {
+      console.error(message);
+      alert('Failed to update username.');
+    }
+  };
+
   return (
     <div className='max-w-4xl'>
       <div className='flex justify-end space-x-4'>
         <button
           onClick={handleClick}
-          className='px-4 py-2 transition-all duration-100 bg-indigo-500 rounded hover:bg-indigo-700'
+          className='px-4 py-2 transition-all duration-100 bg-indigo-600 rounded hover:bg-indigo-700'
         >
           {data === 'unauthorised' ? 'Sign In' : 'Sign Out'}
         </button>
         {data !== 'unauthorised' && (
           <button
             onClick={handleBillingPortal}
-            className='px-4 py-2 transition-all duration-100 bg-green-500 rounded hover:bg-green-700'
+            className='px-4 py-2 transition-all duration-100 bg-green-500 rounded hover:bg-green-600'
           >
             Billing Portal
           </button>
         )}
       </div>
 
-      <h1 className='mb-6 text-6xl text-center'>Welcome to the frontend</h1>
+      <h1 className='mb-6 text-6xl text-center'>
+        Welcome to the frontend
+        {data !== 'unauthorised' && `, ${userName ? userName : 'User'}`}
+      </h1>
+      {data !== 'unauthorised' && (
+        <form
+          className='flex items-center justify-center my-16 space-x-4 '
+          onSubmit={handleUpdateUserName}
+        >
+          <label htmlFor='newUserName'>Change Username:</label>
+          <input
+            className='p-2 font-medium text-gray-800 border border-gray-300 rounded-md w-60 focus:outline-none focus:ring-2 focus:ring-indigo-400'
+            type='text'
+            id='newUserName'
+            value={newUserName}
+            onChange={(e) => setNewUserName(e.target.value)}
+            required
+          />
+          <button
+            className='px-4 py-2 transition-all duration-100 bg-indigo-600 rounded hover:bg-indigo-700'
+            type='submit'
+          >
+            Update
+          </button>
+        </form>
+      )}
 
       <p>
         The main purpose of this frontend is to test login flow and
