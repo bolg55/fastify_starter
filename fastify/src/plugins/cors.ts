@@ -8,7 +8,7 @@ const corsPlugin = async (fastify: FastifyInstance) => {
   await fastify.register(cors, {
     origin: [env.API_DOMAIN, env.WEBSITE_DOMAIN],
     allowedHeaders: ['Content-Type', ...supertokens.getAllCORSHeaders()],
-    methods: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+    methods: ['GET', 'PUT', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
   });
 };
