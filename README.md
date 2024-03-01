@@ -8,6 +8,10 @@ Meant to help you get started quickly with building APIs, this project is design
 
 I've added a new React frontend for testing the API. You can find it in the `frontend` folder. It is a simple react app built with vite and SWC.
 
+The front end allows you to sign in, view protected routes, update profile name, sign out, and make a payment using Stripe.
+
+> Note: If you do not deploy your backend to a live server, you will need to use something like [ngrok](https://ngrok.com/) to expose your local server to the internet so that the frontend can communicate with it when testing the Stripe integration.
+
 ## Core features
 
 - [x] Fastify
@@ -18,7 +22,7 @@ I've added a new React frontend for testing the API. You can find it in the `fro
 - [x] Redis cache (via Upstash)
 - [x] Auth (via Supertokens)
 - [x] Neon Database (PostgreSQL)
-- [ ] Stripe integration (coming soon)
+- [x] Stripe integration
 
 ### Folder structure
 
@@ -132,7 +136,7 @@ You can run the migration script using the following command:
 npm run migrate
 ```
 
-### Stripe integration (Coming soon)
+### Stripe integration
 
 Stripe is a popular payment gateway that allows you to accept payments online. This starter project comes preconfigured with Stripe, allowing for both one-time and recurring payments as well as subscription management and webhooks.
 
@@ -143,6 +147,44 @@ Stripe is a popular payment gateway that allows you to accept payments online. T
 3. Create a `.env` file using the `.env.example` file as a template
 4. Run `npm run migrate` to create the database schema
 5. Run `npm run dev` to start the server in development mode
+
+# Required environment variables
+
+## Frontend
+
+```env
+VITE_API_DOMAIN=<'get from API'>
+VITE_WEBSITE_DOMAIN=<'update with your domain'>
+
+# GET FROM STRIPE
+VITE_STRIPE_PUBLIC_KEY="CHANGE_ME"
+
+# Product Price IDs (FROM STRIPE)
+VITE_PRODUCT_STARTER="price_CHANGE_ME"
+VITE_PRODUCT_PRO="price_CHANGE_ME"
+VITE_PRODUCT_ENTERPRISE="price_CHANGE_ME"
+```
+
+## Backend
+
+```env
+NODE_ENV= 'development'
+
+DATABASE_CONNECTION= '<database connection string from Neon>'
+
+UPSTASH_REDIS_REST_URL= 'https://<get from upstash>'
+UPSTASH_REDIS_REST_TOKEN= '<get from upstash>'
+
+STRIPE_SECRET_KEY= '<get from stripe>'
+STRIPE_PUBLIC_KEY= '<get from stripe>'
+STRIPE_WEBHOOK_SECRET= '<get from stripe>'
+
+SUPERTOKENS_CONNECTION_URI= '<get from supertokens>'
+SUPERTOKENS_API_KEY= '<get from supertokens>'
+
+API_DOMAIN= 'http://localhost:8080'
+WEBSITE_DOMAIN= 'http://localhost:5173'
+```
 
 ## Contributing
 
