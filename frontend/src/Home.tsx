@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getMe, getCustomerPortalUrl, updateMe } from './utils';
+import { getMe, updateMe, handleBillingPortal } from './utils';
 import { signOut } from 'supertokens-auth-react/recipe/thirdpartypasswordless';
 
 const Home = () => {
@@ -22,15 +22,6 @@ const Home = () => {
 
   const handleClick = async () => {
     data === 'unauthorised' ? window.location.assign('/auth') : await logout();
-  };
-
-  const handleBillingPortal = async () => {
-    const { url, status, message } = await getCustomerPortalUrl();
-    if (status === 'success') {
-      window.location.href = url;
-    } else {
-      console.error(message);
-    }
   };
 
   const handleUpdateUserName = async (e: React.FormEvent<HTMLFormElement>) => {

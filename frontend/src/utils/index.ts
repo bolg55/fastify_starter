@@ -31,3 +31,12 @@ export const getCustomerPortalUrl = async () => {
   );
   return response.json();
 };
+
+export const handleBillingPortal = async () => {
+  const { url, status, message } = await getCustomerPortalUrl();
+  if (status === 'success') {
+    window.location.href = url;
+  } else {
+    console.error(message);
+  }
+};
