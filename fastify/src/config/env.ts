@@ -17,5 +17,6 @@ export const env = zennv({
     UPSTASH_REDIS_REST_URL: z.string(),
     STRIPE_SECRET_KEY: z.string(),
     STRIPE_PUBLIC_KEY: z.string(),
+    STRIPE_WEBHOOK_SECRET: z.string(),
   }),
 });

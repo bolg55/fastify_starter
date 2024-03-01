@@ -88,7 +88,7 @@ export const stripeWebhookHandler = async (
   reply: FastifyReply
 ) => {
   const sig = request.headers['stripe-signature'] as string;
-  const endpointSecret = env.STRIPE_SECRET_KEY;
+  const endpointSecret = env.STRIPE_WEBHOOK_SECRET;
   const rawBody = request.rawBody;
 
   let event: Stripe.Event;
