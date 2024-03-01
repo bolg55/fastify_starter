@@ -3,6 +3,7 @@ import { getMe, updateMe, handleBillingPortal } from './utils';
 import { signOut } from 'supertokens-auth-react/recipe/thirdpartypasswordless';
 
 const Home = () => {
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
   const [userName, setUserName] = useState('');
   const [newUserName, setNewUserName] = useState('');
@@ -12,6 +13,7 @@ const Home = () => {
     response.then((data) => {
       setData(data.message);
       setUserName(data.data.profile.userName);
+      setLoading(false);
     });
   }, []);
 
@@ -37,9 +39,19 @@ const Home = () => {
     }
   };
 
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className='max-w-4xl'>
-      <div className='flex justify-end space-x-4'>
+    <div className='max-w-5xl'>
+      <div className='flex items-center justify-end mb-16 space-x-4'>
+        <a
+          href='/pricing'
+          className='transition-all underline-offset-2 hover:underline hover:text-green-500'
+        >
+          Pricing
+        </a>
         <button
           onClick={handleClick}
           className='px-4 py-2 transition-all duration-100 bg-indigo-600 rounded hover:bg-indigo-700'
