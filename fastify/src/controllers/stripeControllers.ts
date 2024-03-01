@@ -43,7 +43,6 @@ export const stripeCheckoutSessionHandler = async (
   const userId = request.userData?.userProfile?.id;
   const stripeCustomerId =
     request.userData?.userProfile?.subscriptions[0].stripeCustomerId;
-  const customerEmail = request.userData?.userProfile?.email;
 
   // Handle errors
   if (!userId) {
@@ -57,7 +56,6 @@ export const stripeCheckoutSessionHandler = async (
   const params: Stripe.Checkout.SessionCreateParams = {
     mode: 'subscription',
     customer: stripeCustomerId,
-    customer_email: customerEmail,
     payment_method_types: ['card'],
     billing_address_collection: 'auto',
     line_items: [
