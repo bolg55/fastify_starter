@@ -53,6 +53,7 @@ export const updateStripeSubscription = async (
       .set({
         isActive: true,
         subStatus: subscription.status,
+        stripeSubscriptionId: subscription.id,
         subTier,
         cancelAtPeriodEnd: subscription.cancel_at_period_end,
         canceledAtDate: timestampToDate(subscription.canceled_at as number),
@@ -72,6 +73,7 @@ export const cancelStripeSubscription = async (
       .set({
         isActive: false,
         subStatus: subscription.status,
+        stripeSubscriptionId: '',
         subTier: '',
         cancelAtPeriodEnd: subscription.cancel_at_period_end,
         canceledAtDate: timestampToDate(subscription.canceled_at as number),
