@@ -39,7 +39,7 @@ export const stripeCheckoutSessionHandler = async (
   request: FastifyRequest,
   reply: FastifyReply
 ) => {
-  const { priceId } = request.body as { priceId: string };
+  const { planId } = request.body as { planId: string };
   const userId = request.userData?.userProfile?.id;
 
   // Handle errors
@@ -57,7 +57,7 @@ export const stripeCheckoutSessionHandler = async (
     billing_address_collection: 'auto',
     line_items: [
       {
-        price: priceId,
+        price: planId,
         quantity: 1,
       },
     ],

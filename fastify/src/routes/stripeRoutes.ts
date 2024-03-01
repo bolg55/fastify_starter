@@ -19,6 +19,13 @@ const stripeRoutes = async (server: FastifyInstance) => {
   server.post('/checkout-session', {
     schema: {
       tags: ['Stripe'],
+      body: {
+        type: 'object',
+        properties: {
+          planId: { type: 'string' },
+        },
+        required: ['planId'],
+      },
     },
     preHandler: [verifySession(), getUserMiddleware],
     handler: stripeCheckoutSessionHandler,
