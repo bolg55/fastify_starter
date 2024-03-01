@@ -39,7 +39,7 @@ const Home = () => {
     }
   };
 
-  if (loading) {
+  if (loading && !data) {
     return <div>Loading...</div>;
   }
 
@@ -69,7 +69,7 @@ const Home = () => {
       </div>
 
       <h1 className='mb-6 text-6xl text-center'>
-        Welcome to the front end
+        Hello
         {data !== 'unauthorised' && `, ${userName ? userName : 'User'}`}
       </h1>
       {data !== 'unauthorised' && (
