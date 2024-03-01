@@ -41,6 +41,8 @@ export const stripeCheckoutSessionHandler = async (
 ) => {
   const { planId } = request.body as { planId: string };
   const userId = request.userData?.userProfile?.id;
+  const stripeCustomerId =
+    request.userData?.userProfile?.subscriptions[0].stripeCustomerId;
 
   // Handle errors
   if (!userId) {
@@ -53,6 +55,7 @@ export const stripeCheckoutSessionHandler = async (
   // Create a new checkout session
   const params: Stripe.Checkout.SessionCreateParams = {
     mode: 'subscription',
+    customer: stripeCustomerId,
     payment_method_types: ['card'],
     billing_address_collection: 'auto',
     line_items: [
