@@ -30,6 +30,7 @@ const userProfileSchema = z.object({
 });
 
 const userSubscriptionSchema = z.object({
+  subTier: z.string().nullable(),
   cancelAtPeriodEnd: z.boolean(),
   isActive: z.boolean().default(false),
   stripeCustomerId: z.string(),

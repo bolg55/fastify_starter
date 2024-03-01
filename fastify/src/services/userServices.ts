@@ -43,6 +43,7 @@ export const fetchUser = async (userId: string) => {
           isActive: true,
           subStatus: true,
           cancelAtPeriodEnd: true,
+          subTier: true,
         },
       },
     },
