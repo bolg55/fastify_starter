@@ -8,6 +8,7 @@ import Secret from './Secret';
 import { SessionAuth } from 'supertokens-auth-react/recipe/session';
 import Home from './Home';
 import Layout from './Layout';
+import Pricing from './Pricing';
 
 SuperTokens.init(SuperTokensConfig);
 
@@ -26,6 +27,14 @@ function App() {
               element={
                 <SessionAuth>
                   <Secret />
+                </SessionAuth>
+              }
+            />
+            <Route
+              path='/pricing'
+              element={
+                <SessionAuth requireAuth={false}>
+                  <Pricing />
                 </SessionAuth>
               }
             />
