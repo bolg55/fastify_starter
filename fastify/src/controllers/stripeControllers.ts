@@ -110,13 +110,27 @@ export const stripeWebhookHandler = async (
     case 'customer.subscription.created':
     case 'customer.subscription.updated': {
       const subscription = event.data.object as Stripe.Subscription;
+      const userId = subscription.metadata.payingUserId;
+      if (userId) {
+        await updateStripeSubscription(
+          subscription,
+          request.server.redis,
+          userId
+        );
+      }
 
-      await updateStripeSubscription(subscription);
       break;
     }
     case 'customer.subscription.deleted': {
       const subscription = event.data.object as Stripe.Subscription;
-      await cancelStripeSubscription(subscription);
+      const userId = subscription.metadata.payingUserId;
+      if (userId) {
+        await cancelStripeSubscription(
+          subscription,
+          request.server.redis,
+          userId
+        );
+      }
       break;
     }
     case 'payment_intent.succeeded':

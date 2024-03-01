@@ -3,6 +3,7 @@ import { db } from '@db/index';
 import { subscriptions } from '@db/schema';
 import { timestampToDate } from '@utils/timestampToDate';
 import { eq } from 'drizzle-orm';
+import { Redis } from 'ioredis';
 import Stripe from 'stripe';
 
 export const createStripeCustomerAndUpdateSubscription = async (
@@ -43,43 +44,61 @@ export const getStripeSubTier = async (subscription: Stripe.Subscription) => {
 };
 
 export const updateStripeSubscription = async (
-  subscription: Stripe.Subscription
+  subscription: Stripe.Subscription,
+  redis: Redis,
+  userId: string
 ) => {
   const subTier = await getStripeSubTier(subscription);
 
-  await db.transaction(async (tx) => {
-    await tx
-      .update(subscriptions)
-      .set({
-        isActive: true,
-        subStatus: subscription.status,
-        stripeSubscriptionId: subscription.id,
-        subTier,
-        cancelAtPeriodEnd: subscription.cancel_at_period_end,
-        canceledAtDate: timestampToDate(subscription.canceled_at as number),
-      })
-      .where(
-        eq(subscriptions.stripeCustomerId, subscription.customer as string)
-      );
-  });
+  try {
+    await db.transaction(async (tx) => {
+      await tx
+        .update(subscriptions)
+        .set({
+          isActive: true,
+          subStatus: subscription.status,
+          stripeSubscriptionId: subscription.id,
+          subTier,
+          cancelAtPeriodEnd: subscription.cancel_at_period_end,
+          canceledAtDate: timestampToDate(subscription.canceled_at as number),
+        })
+        .where(
+          eq(subscriptions.stripeCustomerId, subscription.customer as string)
+        );
+    });
+    // Invalidate the user's profile cache
+    await redis.del(`user:${userId}:profile`);
+  } catch (err) {
+    console.error('Error updating Stripe subscription:', err);
+    // Handle the error appropriately
+  }
 };
 
 export const cancelStripeSubscription = async (
-  subscription: Stripe.Subscription
+  subscription: Stripe.Subscription,
+  redis: Redis,
+  userId: string
 ) => {
-  await db.transaction(async (tx) => {
-    await tx
-      .update(subscriptions)
-      .set({
-        isActive: false,
-        subStatus: subscription.status,
-        stripeSubscriptionId: '',
-        subTier: '',
-        cancelAtPeriodEnd: subscription.cancel_at_period_end,
-        canceledAtDate: timestampToDate(subscription.canceled_at as number),
-      })
-      .where(
-        eq(subscriptions.stripeCustomerId, subscription.customer as string)
-      );
-  });
+  try {
+    await db.transaction(async (tx) => {
+      await tx
+        .update(subscriptions)
+        .set({
+          isActive: false,
+          subStatus: subscription.status,
+          stripeSubscriptionId: '',
+          subTier: '',
+          cancelAtPeriodEnd: subscription.cancel_at_period_end,
+          canceledAtDate: timestampToDate(subscription.canceled_at as number),
+        })
+        .where(
+          eq(subscriptions.stripeCustomerId, subscription.customer as string)
+        );
+    });
+    // Invalidate the user's profile cache
+    await redis.del(`user:${userId}:profile`);
+  } catch (err) {
+    console.error('Error canceling Stripe subscription:', err);
+    // Handle the error appropriately
+  }
 };
