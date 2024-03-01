@@ -82,8 +82,6 @@ const Pricing = () => {
     );
     const session = await response.json();
 
-    console.log(session);
-
     const stripe = await getStripe();
     stripe?.redirectToCheckout({
       sessionId: session.sessionId,
@@ -94,8 +92,6 @@ const Pricing = () => {
     <div className='my-24 sm:my-32'>
       <div className='px-6 mx-auto max-w-7xl lg:px-8'>
         <div className='max-w-4xl mx-auto text-center'>
-          <pre>{JSON.stringify(data, null, 2)}</pre>
-          <pre>{JSON.stringify(isActive, null, 2)}</pre>
           <h2 className='text-base font-semibold leading-7 text-indigo-400'>
             Pricing
           </h2>
