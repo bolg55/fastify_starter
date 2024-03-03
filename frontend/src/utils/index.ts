@@ -1,9 +1,20 @@
 export const getMe = async () => {
-  const response = await fetch(`${import.meta.env.VITE_API_DOMAIN}/me`, {
-    method: 'GET',
-    credentials: 'include',
-  });
-  return response.json(); // Return the parsed data directly
+  try {
+    const response = await fetch(`${import.meta.env.VITE_API_DOMAIN}/me`);
+    if (response.ok) {
+      return await response.json();
+    } else if (response.status === 401) {
+      // Return a specific object to indicate an unauthorized response
+      return { unauthorized: true };
+    } else {
+      // Handle other non-OK responses
+      throw new Error('Failed to fetch user data');
+    }
+  } catch (error) {
+    // Handle errors other than 401
+    console.error('Error fetching user data:', error);
+    return { error };
+  }
 };
 
 export const updateMe = async (data: { userName: string }) => {

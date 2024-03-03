@@ -21,7 +21,6 @@ const Home = () => {
   } = useUpdateUserName();
 
   const userName = isPending ? pendingUserName : data?.data?.profile.userName;
-  const message = data?.message;
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -32,7 +31,7 @@ const Home = () => {
   }
 
   const handleClick = async () => {
-    message === 'unauthorised'
+    data?.unauthorized
       ? window.location.assign('/auth')
       : await logout(queryClient);
   };
@@ -50,9 +49,9 @@ const Home = () => {
           onClick={handleClick}
           className='px-4 py-2 transition-all duration-100 bg-indigo-600 rounded hover:bg-indigo-700'
         >
-          {message === 'unauthorised' ? 'Sign In' : 'Sign Out'}
+          {data?.unauthorized ? 'Sign In' : 'Sign Out'}
         </button>
-        {message !== 'unauthorised' && (
+        {!data?.unauthorized && (
           <button
             onClick={handleBillingPortal}
             className='px-4 py-2 transition-all duration-100 bg-green-500 rounded hover:bg-green-600'
@@ -64,7 +63,7 @@ const Home = () => {
 
       <h1 className='mb-6 text-6xl text-center'>
         Hello
-        {message !== 'unauthorised' && (
+        {!data?.unauthorized && (
           <>
             ,{' '}
             <span className={isPending ? 'opacity-50' : ''}>
@@ -73,7 +72,7 @@ const Home = () => {
           </>
         )}
       </h1>
-      {message !== 'unauthorised' && (
+      {!data?.unauthorized && (
         <UpdateUserNameForm
           updateUserName={updateUserName}
           retry={retry}
