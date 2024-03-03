@@ -4,17 +4,27 @@ import { updateMe } from '../utils';
 const useUpdateUserName = () => {
   const queryClient = useQueryClient();
 
-  const { mutate, error } = useMutation({
+  const { mutate, isError, error, isPending, variables } = useMutation({
     mutationFn: updateMe,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
-    },
-    onError: (error) => {
-      console.error(error);
-      alert('Failed to update username.');
+    onSettled: async () => {
+      return await queryClient.invalidateQueries({ queryKey: ['userProfile'] });
     },
   });
-  return { updateUserName: mutate, error };
+
+  const retry = () => {
+    if (variables) {
+      mutate(variables);
+    }
+  };
+
+  return {
+    updateUserName: mutate,
+    retry,
+    isError,
+    error,
+    isPending,
+    pendingUserName: variables?.userName,
+  };
 };
 
 export default useUpdateUserName;
