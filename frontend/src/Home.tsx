@@ -3,10 +3,14 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import UpdateUserNameForm from './components/UpdateUserNameForm';
 import { logout } from './utils/auth';
 import useUpdateUserName from './hooks/useUpdateUserName';
+import { useSessionContext } from 'supertokens-auth-react/recipe/session';
+import Loader from './components/Loader';
 
 const Home = () => {
+  const sessionContext = useSessionContext();
   const queryClient = useQueryClient();
   const { isLoading, data, error } = useQuery({
+    enabled: !sessionContext.loading && sessionContext.doesSessionExist,
     queryKey: ['userProfile'],
     queryFn: getMe,
   });
@@ -23,17 +27,15 @@ const Home = () => {
   const userName = isPending ? pendingUserName : data?.data?.profile.userName;
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader text='Loading...' />;
   }
 
   if (error) {
-    return <div>Error: {error.message}</div>;
+    return <div>Error: {error?.message}</div>;
   }
 
   const handleClick = async () => {
-    data?.unauthorized
-      ? window.location.assign('/auth')
-      : await logout(queryClient);
+    !data ? window.location.assign('/auth') : await logout(queryClient);
   };
 
   return (
@@ -49,9 +51,9 @@ const Home = () => {
           onClick={handleClick}
           className='px-4 py-2 transition-all duration-100 bg-indigo-600 rounded hover:bg-indigo-700'
         >
-          {data?.unauthorized ? 'Sign In' : 'Sign Out'}
+          {data ? 'Sign Out' : 'Sign In'}
         </button>
-        {!data?.unauthorized && (
+        {data && (
           <button
             onClick={handleBillingPortal}
             className='px-4 py-2 transition-all duration-100 bg-green-500 rounded hover:bg-green-600'
@@ -63,16 +65,18 @@ const Home = () => {
 
       <h1 className='mb-6 text-6xl text-center'>
         Hello
-        {!data?.unauthorized && (
+        {data ? (
           <>
             ,{' '}
             <span className={isPending ? 'opacity-50' : ''}>
               {userName ? userName : 'User'}
             </span>
           </>
+        ) : (
+          <span>. You're not signed in</span>
         )}
       </h1>
-      {!data?.unauthorized && (
+      {data && (
         <UpdateUserNameForm
           updateUserName={updateUserName}
           retry={retry}
