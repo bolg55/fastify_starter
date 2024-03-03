@@ -10,6 +10,10 @@ I've added a new React frontend for testing the API. You can find it in the `fro
 
 The front end allows you to sign in, view protected routes, update profile name, sign out, and make a payment using Stripe.
 
+## NEW - TanStack
+
+I have refactored some of the frontend code to use Tanstack, specifically Tanstack Query, formerly known as React Query. This is a powerful data fetching library that makes it easy to fetch, cache, and update data in your React applications. It is designed to be easy to use and easy to understand, and is a great fit for this project.
+
 > Note: If you do not deploy your backend to a live server, you will need to use something like [ngrok](https://ngrok.com/) to expose your local server to the internet so that the frontend can communicate with it when testing the Stripe integration.
 
 ## Core features
@@ -23,23 +27,45 @@ The front end allows you to sign in, view protected routes, update profile name,
 - [x] Auth (via Supertokens)
 - [x] Neon Database (PostgreSQL)
 - [x] Stripe integration
+- [x] React with Vite
+- [x] Tanstack Query
 
 ### Folder structure
 
 The folder structure is designed to be easy to understand and modify. It is designed to be modular and easy to scale.
 
-```
-├───src
-│   ├───config
-│   ├───controllers
-│   ├───db
-│   ├───middlewares
-│   ├───models
-│   ├───plugins
-│   ├───routes
-│   ├───services
-│   └───utils
-└───main.ts
+```markdown
+fastify-starter
+├── frontend
+│ ├── public
+│ ├── src
+│ │ ├── assets
+│ │ ├── components
+│ │ ├── hooks
+│ │ └── utils
+│ ├── .env.example
+│ ├── tailwind.config.js
+│ └── vite.config.ts
+│
+├── fastify
+│ ├── migrations
+│ ├── src
+│ │ ├── config
+│ │ ├── controllers
+│ │ ├── db
+│ │ ├── middlewares
+│ │ ├── models
+│ │ ├── plugins/...
+│ │ ├── registration
+│ │ ├── routes
+│ │ ├── schemas
+│ │ ├── services
+│ │ ├── utils
+│ │ └── main.ts
+│ ├── .env.example
+│ ├── drizzle.config.ts
+│ ├── tsconfig.json
+│ └── custom.d.ts
 ```
 
 ### Configuration
