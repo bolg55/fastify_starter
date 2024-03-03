@@ -1,47 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import { getMe, updateMe, handleBillingPortal } from './utils';
-import { signOut } from 'supertokens-auth-react/recipe/thirdpartypasswordless';
+import { getMe, handleBillingPortal } from './utils';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import UpdateUserNameForm from './components/UpdateUserNameForm';
+import { logout } from './utils/auth';
+import useUpdateUserName from './hooks/useUpdateUserName';
 
 const Home = () => {
-  const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(null);
-  const [userName, setUserName] = useState('');
-  const [newUserName, setNewUserName] = useState('');
+  const queryClient = useQueryClient();
+  const { isLoading, data, error } = useQuery({
+    queryKey: ['userProfile'],
+    queryFn: getMe,
+  });
 
-  useEffect(() => {
-    const response = getMe();
-    response.then((data) => {
-      setData(data.message);
-      setUserName(data.data.profile.userName);
-      setLoading(false);
-    });
-  }, []);
+  const {
+    updateUserName,
+    retry,
+    isError,
+    error: updateError,
+    isPending,
+    pendingUserName,
+  } = useUpdateUserName();
 
-  const logout = async () => {
-    await signOut();
-    window.location.href = '/';
-  };
+  const userName = isPending ? pendingUserName : data?.data?.profile.userName;
+  const message = data?.message;
 
-  const handleClick = async () => {
-    data === 'unauthorised' ? window.location.assign('/auth') : await logout();
-  };
-
-  const handleUpdateUserName = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const { status, message } = await updateMe({ userName: newUserName });
-    if (status === 'success') {
-      setUserName(newUserName);
-      setNewUserName('');
-      alert('Username updated successfully!');
-    } else {
-      console.error(message);
-      alert('Failed to update username.');
-    }
-  };
-
-  if (loading && !data) {
+  if (isLoading) {
     return <div>Loading...</div>;
   }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
+
+  const handleClick = async () => {
+    message === 'unauthorised'
+      ? window.location.assign('/auth')
+      : await logout(queryClient);
+  };
 
   return (
     <div className='max-w-5xl'>
@@ -56,9 +50,9 @@ const Home = () => {
           onClick={handleClick}
           className='px-4 py-2 transition-all duration-100 bg-indigo-600 rounded hover:bg-indigo-700'
         >
-          {data === 'unauthorised' ? 'Sign In' : 'Sign Out'}
+          {message === 'unauthorised' ? 'Sign In' : 'Sign Out'}
         </button>
-        {data !== 'unauthorised' && (
+        {message !== 'unauthorised' && (
           <button
             onClick={handleBillingPortal}
             className='px-4 py-2 transition-all duration-100 bg-green-500 rounded hover:bg-green-600'
@@ -70,29 +64,23 @@ const Home = () => {
 
       <h1 className='mb-6 text-6xl text-center'>
         Hello
-        {data !== 'unauthorised' && `, ${userName ? userName : 'User'}`}
+        {message !== 'unauthorised' && (
+          <>
+            ,{' '}
+            <span className={isPending ? 'opacity-50' : ''}>
+              {userName ? userName : 'User'}
+            </span>
+          </>
+        )}
       </h1>
-      {data !== 'unauthorised' && (
-        <form
-          className='flex items-center justify-center my-16 space-x-4 '
-          onSubmit={handleUpdateUserName}
-        >
-          <label htmlFor='newUserName'>Change Username:</label>
-          <input
-            className='p-2 font-medium text-gray-800 border border-gray-300 rounded-md w-60 focus:outline-none focus:ring-2 focus:ring-indigo-400'
-            type='text'
-            id='newUserName'
-            value={newUserName}
-            onChange={(e) => setNewUserName(e.target.value)}
-            required
-          />
-          <button
-            className='px-4 py-2 transition-all duration-100 bg-indigo-600 rounded hover:bg-indigo-700'
-            type='submit'
-          >
-            Update
-          </button>
-        </form>
+      {message !== 'unauthorised' && (
+        <UpdateUserNameForm
+          updateUserName={updateUserName}
+          retry={retry}
+          isError={isError}
+          error={updateError}
+          isLoading={isLoading}
+        />
       )}
 
       <p>
