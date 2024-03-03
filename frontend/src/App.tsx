@@ -9,39 +9,44 @@ import { SessionAuth } from 'supertokens-auth-react/recipe/session';
 import Home from './Home';
 import Layout from './Layout';
 import Pricing from './Pricing';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 SuperTokens.init(SuperTokensConfig);
 
+const queryClient = new QueryClient();
+
 function App() {
   return (
-    <Layout>
-      <SuperTokensWrapper>
-        <Router>
-          <Routes>
-            {getSuperTokensRoutesForReactRouterDom(reactRouterDom, [
-              ThirdPartyPasswordlessPreBuiltUI,
-            ])}
-            <Route path='/' element={<Home />} />
-            <Route
-              path='/secret'
-              element={
-                <SessionAuth>
-                  <Secret />
-                </SessionAuth>
-              }
-            />
-            <Route
-              path='/pricing'
-              element={
-                <SessionAuth requireAuth={false}>
-                  <Pricing />
-                </SessionAuth>
-              }
-            />
-          </Routes>
-        </Router>
-      </SuperTokensWrapper>
-    </Layout>
+    <QueryClientProvider client={queryClient}>
+      <Layout>
+        <SuperTokensWrapper>
+          <Router>
+            <Routes>
+              {getSuperTokensRoutesForReactRouterDom(reactRouterDom, [
+                ThirdPartyPasswordlessPreBuiltUI,
+              ])}
+              <Route path='/' element={<Home />} />
+              <Route
+                path='/secret'
+                element={
+                  <SessionAuth>
+                    <Secret />
+                  </SessionAuth>
+                }
+              />
+              <Route
+                path='/pricing'
+                element={
+                  <SessionAuth requireAuth={false}>
+                    <Pricing />
+                  </SessionAuth>
+                }
+              />
+            </Routes>
+          </Router>
+        </SuperTokensWrapper>
+      </Layout>
+    </QueryClientProvider>
   );
 }
 
