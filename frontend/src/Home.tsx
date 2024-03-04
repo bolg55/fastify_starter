@@ -41,12 +41,6 @@ const Home = () => {
   return (
     <div className='max-w-5xl'>
       <div className='flex items-center justify-end mb-16 space-x-4'>
-        <a
-          href='/pricing'
-          className='transition-all underline-offset-2 hover:underline hover:text-green-500'
-        >
-          Pricing
-        </a>
         <button
           onClick={handleClick}
           className='px-4 py-2 transition-all duration-100 bg-indigo-600 rounded hover:bg-indigo-700'
