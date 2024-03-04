@@ -13,6 +13,8 @@
     "@heroicons/react": "^2.1.1",
     "@stripe/stripe-js": "^3.0.6",
     "@tanstack/react-query": "^5.24.6",
+    "@tanstack/react-router": "^1.18.3",
+    "@tanstack/router-devtools": "^1.18.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.1",
@@ -20,6 +22,7 @@
     "supertokens-auth-react": "^0.38.0"
   },
   "devDependencies": {
+    "@tanstack/router-vite-plugin": "^1.18.1",
     "@types/react": "^18.2.55",
     "@types/react-dom": "^18.2.19",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
