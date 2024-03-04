@@ -1,30 +1,15 @@
 import './index.css';
 import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
-import {
-  RouterProvider,
-  createRouter,
-  NotFoundRoute,
-} from '@tanstack/react-router';
-import { Route as rootRoute } from './routes/__root';
+import { RouterProvider } from '@tanstack/react-router';
+import { QueryClientProvider } from '@tanstack/react-query';
+import SuperTokens, { SuperTokensWrapper } from 'supertokens-auth-react';
+import { SuperTokensConfig } from './providers/authProvider';
+import queryClient from './providers/dataFetchingProvider';
+import router from './providers/routingProvider';
+import { Toaster } from 'sonner';
 
-const notFoundRoute = new NotFoundRoute({
-  getParentRoute: () => rootRoute,
-  component: () => '404 Not Found',
-});
-
-// Import the generated route tree
-import { routeTree } from './routeTree.gen';
-
-// Create a new router instance
-const router = createRouter({ routeTree, notFoundRoute });
-
-// Register the router instance for type safety
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: typeof router;
-  }
-}
+SuperTokens.init(SuperTokensConfig);
 
 // Render the app
 const rootElement = document.getElementById('app')!;
@@ -32,7 +17,12 @@ if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <SuperTokensWrapper>
+          <Toaster richColors position='top-right' closeButton expand={true} />
+          <RouterProvider router={router} />
+        </SuperTokensWrapper>
+      </QueryClientProvider>
     </StrictMode>
   );
 }
