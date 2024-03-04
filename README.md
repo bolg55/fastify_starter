@@ -72,7 +72,7 @@ fastify-starter
 
 Included is a `.env.example` file which you can use to create your own `.env` file to store your environment variables.
 
-In the `src/config` folder, you can find the `env.ts` file which is used to validate the variable type using [zod](https://www.pnpmjs.com/package/zod) and [zennv](https://www.pnpmjs.com/package/zennv).
+In the `src/config` folder, you can find the `env.ts` file which is used to validate the variable type using [zod](https://www.npmjs.com/package/zod) and [zennv](https://www.npmjs.com/package/zennv).
 
 You can remove any of the variables from the schema validation if you don't need them.
 
