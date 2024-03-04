@@ -72,7 +72,7 @@ fastify-starter
 
 Included is a `.env.example` file which you can use to create your own `.env` file to store your environment variables.
 
-In the `src/config` folder, you can find the `env.ts` file which is used to validate the variable type using [zod](https://www.npmjs.com/package/zod) and [zennv](https://www.npmjs.com/package/zennv).
+In the `src/config` folder, you can find the `env.ts` file which is used to validate the variable type using [zod](https://www.pnpmjs.com/package/zod) and [zennv](https://www.pnpmjs.com/package/zennv).
 
 You can remove any of the variables from the schema validation if you don't need them.
 
@@ -159,7 +159,7 @@ Using `drizzle-kit` you can easily migrate your database schema. Provided are th
 You can run the migration script using the following command:
 
 ```zsh
-npm run migrate
+pnpm run migrate
 ```
 
 ### Stripe integration
@@ -169,10 +169,10 @@ Stripe is a popular payment gateway that allows you to accept payments online. T
 ## How to use
 
 1. Clone the repo
-2. Run `npm install` to install required dependencies
+2. Run `pnpm install` to install required dependencies
 3. Create a `.env` file using the `.env.example` file as a template
-4. Run `npm run migrate` to create the database schema
-5. Run `npm run dev` to start the server in development mode
+4. Run `pnpm run migrate` to create the database schema
+5. Run `pnpm run dev` to start the server in development mode
 
 # Required environment variables
 
