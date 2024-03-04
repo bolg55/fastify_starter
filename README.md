@@ -1,5 +1,7 @@
 # Fastify Starter project
 
+>Please review [TODO.md](/TODO.md) first as some fixes are in order.
+
 This is a starter project for building APIs with Fastify. It comes preconfigured with some of the most popular plugins and services, including Redis, Supertokens, NeonDB, and more.
 
 Meant to help you get started quickly with building APIs, this project is designed to be a starting point for building APIs with Fastify. It comes with a folder structure and configuration that is designed to be easy to understand and modify.
@@ -29,6 +31,7 @@ I have refactored some of the frontend code to use Tanstack, specifically Tansta
 - [x] Stripe integration
 - [x] React with Vite
 - [x] Tanstack Query
+- [ ] Tanstack Router (WIP)
 
 ### Folder structure
 
