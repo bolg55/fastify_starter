@@ -10,7 +10,7 @@ import Home from './Home';
 import Layout from './Layout';
 import Pricing from './Pricing';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
+import { Toaster } from 'sonner';
 SuperTokens.init(SuperTokensConfig);
 
 const queryClient = new QueryClient();
@@ -20,6 +20,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Layout>
         <SuperTokensWrapper>
+          <Toaster richColors position='top-right' closeButton expand={true} />
           <Router>
             <Routes>
               {getSuperTokensRoutesForReactRouterDom(reactRouterDom, [

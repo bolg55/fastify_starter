@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { getMe } from './utils';
+import { toast } from 'sonner';
 import Loader from './components/Loader';
 
 const Secret = () => {
@@ -11,9 +12,10 @@ const Secret = () => {
       setIsLoading(true);
       const responseData = await getMe();
       setData(responseData);
+      toast.success('Data fetched successfully');
       setIsLoading(false);
     } catch (error) {
-      console.error('Error fetching data:', error);
+      toast.error(`Error fetching data: ${error}`);
     }
   };
 
