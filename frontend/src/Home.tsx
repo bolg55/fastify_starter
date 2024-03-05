@@ -3,14 +3,14 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import UpdateUserNameForm from './components/UpdateUserNameForm';
 import { logout } from './utils/auth';
 import useUpdateUserName from './hooks/useUpdateUserName';
-import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import Loader from './components/Loader';
+import { useAuth } from './hooks/useAuth';
 
 const Home = () => {
-  const sessionContext = useSessionContext();
+  const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();
   const { isLoading, data, error } = useQuery({
-    enabled: !sessionContext.loading && sessionContext.doesSessionExist,
+    enabled: !!isLoggedIn,
     queryKey: ['userProfile'],
     queryFn: getMe,
   });
@@ -40,6 +40,7 @@ const Home = () => {
 
   return (
     <div className='max-w-5xl'>
+      <pre>{JSON.stringify(isLoggedIn, null, 2)}</pre>
       <div className='flex items-center justify-end mb-16 space-x-4'>
         <button
           onClick={handleClick}

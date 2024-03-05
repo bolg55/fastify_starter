@@ -1,7 +1,7 @@
 import { ReactNode, createContext, useEffect, useState } from 'react';
 import Session from 'supertokens-web-js/recipe/session';
 
-interface AuthContextType {
+export interface AuthContextType {
   isLoggedIn: boolean | null;
 }
 

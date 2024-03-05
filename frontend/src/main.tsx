@@ -8,6 +8,7 @@ import './index.css';
 import { SuperTokensConfig } from './providers/authProvider';
 import queryClient from './providers/dataFetchingProvider';
 import router from './providers/routingProvider';
+import { AuthProvider } from './context/AuthContext';
 
 SuperTokens.init(SuperTokensConfig);
 
@@ -19,7 +20,9 @@ if (!rootElement.innerHTML) {
     <StrictMode>
       <QueryClientProvider client={queryClient}>
         <Toaster richColors position='top-right' closeButton expand={true} />
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </QueryClientProvider>
     </StrictMode>
   );
