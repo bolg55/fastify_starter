@@ -28,7 +28,7 @@ const AuthForm = () => {
 
   return (
     <div className='flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24'>
-      <div className='max-w-sm p-4 mx-auto border-2 rounded-md shadow-md lg:w-96'>
+      <div className='max-w-sm p-4 mx-auto bg-white border-2 rounded-md shadow-md lg:w-96'>
         <div>
           <h2 className='text-2xl font-bold leading-9 tracking-tight text-gray-900 '>
             Sign in to your account
@@ -44,7 +44,7 @@ const AuthForm = () => {
           <form className='space-y-6' onSubmit={handleSubmit(onSubmit)}>
             <div>
               <label
-                className='block text-sm font-medium leading-6 text-gray-900'
+                className='block px-2 text-sm font-medium leading-6 text-gray-900'
                 htmlFor='email'
               >
                 Email address
@@ -54,7 +54,7 @@ const AuthForm = () => {
                   type='email'
                   id='email'
                   {...register('email')}
-                  className='block w-full rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
+                  className='block w-full px-2 rounded-md border-0 py-1.5 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6'
                 />
                 {errors.email && (
                   <p className='text-red-500 '>

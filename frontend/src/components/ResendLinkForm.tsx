@@ -22,11 +22,11 @@ const ResendLinkForm = () => {
   }, [countdown]);
 
   return (
-    <div className='flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24'>
-      <div className='max-w-sm p-4 mx-auto border-2 rounded-md shadow-md lg:w-96'>
+    <div className='flex flex-col flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24'>
+      <div className='max-w-sm p-4 mx-auto bg-white border-2 rounded-md shadow-md lg:w-96'>
         <div className='h-24'>
           <h2 className='text-2xl font-bold leading-9 tracking-tight text-gray-900'>
-            Resend Magic Link
+            Resend magic link
           </h2>
           <p className='mt-2 text-sm leading-6 text-gray-500'>
             Didn't receive the magic link?
