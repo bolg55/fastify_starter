@@ -11,15 +11,19 @@
   },
   "dependencies": {
     "@heroicons/react": "^2.1.1",
+    "@hookform/resolvers": "^3.3.4",
     "@stripe/stripe-js": "^3.0.6",
     "@tanstack/react-query": "^5.24.6",
     "@tanstack/react-router": "^1.18.3",
     "@tanstack/router-devtools": "^1.18.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.51.0",
     "react-router-dom": "^6.22.1",
     "sonner": "^1.4.3",
-    "supertokens-web-js": "^0.9.1"
+    "supertokens-auth-react": "^0.38.0",
+    "supertokens-web-js": "^0.9.1",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@tanstack/router-vite-plugin": "^1.18.1",
