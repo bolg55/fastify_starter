@@ -46,7 +46,6 @@ const Home = () => {
 
   return (
     <div className='max-w-5xl'>
-      <pre>{JSON.stringify(isLoggedIn, null, 2)}</pre>
       <div className='flex items-center justify-end mb-16 space-x-4'>
         <button
           onClick={handleClick}
