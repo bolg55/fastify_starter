@@ -19,17 +19,24 @@ export const sendMagicLink = async (email: string) => {
       toast.success('Please check your email for the magic link');
     }
   } catch (error: unknown) {
-    if (
-      typeof error === 'object' &&
-      error !== null &&
-      'isSuperTokensGeneralError' in error &&
-      (error as { isSuperTokensGeneralError: unknown })
-        .isSuperTokensGeneralError === true &&
-      'message' in error
-    ) {
-      toast.error((error as { message: string }).message);
+    if (isSuperTokensError(error)) {
+      toast.error(error.message);
     } else {
       toast.error('Something went wrong');
     }
   }
+};
+
+// This function checks if the error is a SuperTokens error due to lack of type information
+const isSuperTokensError = (
+  error: unknown
+): error is { isSuperTokensGeneralError: true; message: string } => {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'isSuperTokensGeneralError' in error &&
+    (error as { isSuperTokensGeneralError: unknown })
+      .isSuperTokensGeneralError === true &&
+    'message' in error
+  );
 };
