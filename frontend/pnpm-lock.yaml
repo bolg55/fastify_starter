@@ -32,9 +32,9 @@ dependencies:
   sonner:
     specifier: ^1.4.3
     version: 1.4.3(react-dom@18.2.0)(react@18.2.0)
-  supertokens-auth-react:
-    specifier: ^0.38.0
-    version: 0.38.0(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.9.1)
+  supertokens-web-js:
+    specifier: ^0.9.1
+    version: 0.9.1
 
 devDependencies:
   '@tanstack/router-vite-plugin':
@@ -1566,10 +1566,6 @@ packages:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
     dev: true
 
-  /intl-tel-input@17.0.21:
-    resolution: {integrity: sha512-TfyPxLe41QZPOf6RqBxRE2dpQ0FThB/PBD/gRbxVhGW7IuYg30QD90x/vjmEo4vkZw7j8etxpVcjIZVRcG+Otw==}
-    dev: false
-
   /is-binary-path@2.1.0:
     resolution: {integrity: sha512-ZMERYes6pDydyuGidse7OsHxtbI7WVeUEozgR/g7rd0xUimYNlvZRE/K2MgZTjWy725IfelLeVcEM97mmtRGXw==}
     engines: {node: '>=8'}
@@ -1783,6 +1779,7 @@ packages:
   /object-assign@4.1.1:
     resolution: {integrity: sha512-rJgTQnkUnH1sFw8yT6VSU3zD3sWmu6sZhIseY8VX+GRu3P6F7Fu+JNDoXfklElbLJSnc3FUQHVe4cU5hj+BcUg==}
     engines: {node: '>=0.10.0'}
+    dev: true
 
   /object-hash@3.0.0:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
@@ -1960,14 +1957,6 @@ packages:
     hasBin: true
     dev: true
 
-  /prop-types@15.8.1:
-    resolution: {integrity: sha512-oj87CgZICdulUohogVAR7AjlC0327U4el4L6eAvOqCeudMDVU0NThNaV+b9Df4dXgSP1gXMTnPdhfe/2qDH5cg==}
-    dependencies:
-      loose-envify: 1.4.0
-      object-assign: 4.1.1
-      react-is: 16.13.1
-    dev: false
-
   /punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
@@ -1985,10 +1974,6 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
-    dev: false
-
-  /react-is@16.13.1:
-    resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
 
   /react-router-dom@6.22.1(react-dom@18.2.0)(react@18.2.0):
@@ -2195,22 +2180,6 @@ packages:
       ts-interface-checker: 0.1.13
     dev: true
 
-  /supertokens-auth-react@0.38.0(react-dom@18.2.0)(react@18.2.0)(supertokens-web-js@0.9.1):
-    resolution: {integrity: sha512-MOFSZtmcbpp65hEXeCmn3hwiPVLnkcpW97U9J36osbqRH9eI6MD0HiRkKG8KvA+vV+FIaC2xiCu9OOLmyZk1EA==}
-    engines: {node: '>=16.0.0', npm: '>=8'}
-    peerDependencies:
-      react: '>=16.8.0'
-      react-dom: '>=16.8.0'
-      supertokens-web-js: ^0.9.0
-    dependencies:
-      intl-tel-input: 17.0.21
-      prop-types: 15.8.1
-      react: 18.2.0
-      react-dom: 18.2.0(react@18.2.0)
-      supertokens-js-override: 0.0.4
-      supertokens-web-js: 0.9.1
-    dev: false
-
   /supertokens-js-override@0.0.4:
     resolution: {integrity: sha512-r0JFBjkMIdep3Lbk3JA+MpnpuOtw4RSyrlRAbrzMcxwiYco3GFWl/daimQZ5b1forOiUODpOlXbSOljP/oyurg==}
     dev: false
@@ -2219,11 +2188,11 @@ packages:
     resolution: {integrity: sha512-IQYpynsbV5DBJ4a8xgDQKntvUxinurxqonRNKCPX0Ozkr25dZfeRHyDCpCt8/SxPcbf/UXR9Oip9/yE1kPa9fw==}
     dependencies:
       supertokens-js-override: 0.0.4
-      supertokens-website: 18.0.1
+      supertokens-website: 18.0.2
     dev: false
 
-  /supertokens-website@18.0.1:
-    resolution: {integrity: sha512-LGmtNkDnfgdolbwaDr3z5UofX8kfLxiU+IIRuiZjLoJ4yDJQJGhtxtwY6UKMshJWlz/hOP9Fsy/8RWpDq5qbrA==}
+  /supertokens-website@18.0.2:
+    resolution: {integrity: sha512-M0E1yukkb5gUlVoONe56FPRHhcnCdgBfrMZiSHUle5o/sQNKafG3P+dRk2TOg22Bj0yt0iv/ah3j+MjAQMVYiA==}
     dependencies:
       browser-tabs-lock: 1.3.0
       supertokens-js-override: 0.0.4
