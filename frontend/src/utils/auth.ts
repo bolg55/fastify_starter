@@ -1,4 +1,9 @@
-import { createPasswordlessCode } from 'supertokens-web-js/recipe/thirdpartypasswordless';
+import {
+  clearPasswordlessLoginAttemptInfo,
+  createPasswordlessCode,
+  getPasswordlessLoginAttemptInfo,
+  resendPasswordlessCode,
+} from 'supertokens-web-js/recipe/thirdpartypasswordless';
 import { QueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import Session from 'supertokens-web-js/recipe/session';
@@ -25,6 +30,30 @@ export const sendMagicLink = async (email: string) => {
       toast.error('Something went wrong');
     }
   }
+};
+
+export const resendMagicLink = async () => {
+  try {
+    const response = await resendPasswordlessCode();
+
+    if (response.status === 'RESTART_FLOW_ERROR') {
+      await clearPasswordlessLoginAttemptInfo();
+      toast.error('Login failed. Please try again');
+      window.location.assign('/auth');
+    } else {
+      toast.success('Please check your email for the magic link');
+    }
+  } catch (error: unknown) {
+    if (isSuperTokensError(error)) {
+      toast.error(error.message);
+    } else {
+      toast.error('Something went wrong');
+    }
+  }
+};
+
+export const hasInitialLinkBeenSent = async () => {
+  return (await getPasswordlessLoginAttemptInfo()) !== undefined;
 };
 
 // This function checks if the error is a SuperTokens error due to lack of type information
