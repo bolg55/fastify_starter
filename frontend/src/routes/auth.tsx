@@ -9,5 +9,5 @@ export const Route = createFileRoute('/auth')({
     return { initialMagicLinkSent };
   },
   component: ({ initialMagicLinkSent }) =>
-    !initialMagicLinkSent ? <ResendLinkForm /> : <AuthForm />,
+    initialMagicLinkSent ? <ResendLinkForm /> : <AuthForm />,
 });
