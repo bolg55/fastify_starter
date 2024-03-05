@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
 import { resendMagicLink } from '../utils/auth';
+import { useNavigate } from '@tanstack/react-router';
 
 const ResendLinkForm = () => {
+  const navigate = useNavigate();
   const [isResending, setIsResending] = useState(false);
   const [countdown, setCountdown] = useState(9);
 
   const handleResendClick = async () => {
     setIsResending(true);
-    await resendMagicLink();
+    await resendMagicLink(navigate);
     setIsResending(false);
   };
 

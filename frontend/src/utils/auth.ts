@@ -7,11 +7,15 @@ import {
 import { QueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import Session from 'supertokens-web-js/recipe/session';
+import { NavigateFn } from '@tanstack/react-router';
 
-export const logout = async (queryClient: QueryClient) => {
+export const logout = async (
+  queryClient: QueryClient,
+  navigate: NavigateFn
+) => {
   await Session.signOut();
   queryClient.invalidateQueries({ queryKey: ['userProfile'] });
-  window.location.href = '/';
+  navigate({ to: '/' });
 };
 
 export const sendMagicLink = async (email: string) => {
@@ -32,14 +36,16 @@ export const sendMagicLink = async (email: string) => {
   }
 };
 
-export const resendMagicLink = async () => {
+export const resendMagicLink = async (navigate: NavigateFn) => {
   try {
     const response = await resendPasswordlessCode();
 
     if (response.status === 'RESTART_FLOW_ERROR') {
       await clearPasswordlessLoginAttemptInfo();
       toast.error('Login failed. Please try again');
-      window.location.assign('/auth');
+      navigate({
+        to: '/auth',
+      });
     } else {
       toast.success('Please check your email for the magic link');
     }

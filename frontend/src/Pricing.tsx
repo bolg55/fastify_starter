@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { useEffect } from 'react';
 import TierCard from './components/TierCard';
 import { goToCheckout } from './utils/checkout';
+import { useNavigate } from '@tanstack/react-router';
 
 const tiers = [
   {
@@ -51,6 +52,7 @@ const tiers = [
 ];
 
 const Pricing = () => {
+  const navigate = useNavigate();
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['userProfile'],
     queryFn: getMe,
@@ -89,7 +91,9 @@ const Pricing = () => {
               key={tier.id}
               tier={tier}
               isActive={isActive}
-              goToCheckout={() => goToCheckout(tier.id, data, isActive)}
+              goToCheckout={() =>
+                goToCheckout(tier.id, data, isActive, navigate)
+              }
               index={index}
               totalTiers={tiers.length}
             />

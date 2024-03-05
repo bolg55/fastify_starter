@@ -1,12 +1,14 @@
 import { getMe, handleBillingPortal } from './utils';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
 import UpdateUserNameForm from './components/UpdateUserNameForm';
 import { logout } from './utils/auth';
+import { useAuth } from './hooks/useAuth';
 import useUpdateUserName from './hooks/useUpdateUserName';
 import Loader from './components/Loader';
-import { useAuth } from './hooks/useAuth';
 
 const Home = () => {
+  const navigate = useNavigate();
   const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();
   const { isLoading, data, error } = useQuery({
@@ -35,7 +37,11 @@ const Home = () => {
   }
 
   const handleClick = async () => {
-    !data ? window.location.assign('/auth') : await logout(queryClient);
+    !data
+      ? navigate({
+          to: '/auth',
+        })
+      : await logout(queryClient, navigate);
   };
 
   return (
