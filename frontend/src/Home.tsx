@@ -1,6 +1,6 @@
 import { getMe, handleBillingPortal } from './utils';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from '@tanstack/react-router';
+import { Link, useNavigate } from '@tanstack/react-router';
 import UpdateUserNameForm from './components/UpdateUserNameForm';
 import { logout } from './utils/auth';
 import { useAuth } from './hooks/useAuth';
@@ -46,6 +46,7 @@ const Home = () => {
 
   return (
     <div className='max-w-5xl'>
+      <pre>{JSON.stringify(isLoggedIn, null, 2)}</pre>
       <div className='flex items-center justify-end mb-16 space-x-4'>
         <button
           onClick={handleClick}
@@ -98,12 +99,12 @@ const Home = () => {
       <ol>
         <li>
           Head to the{' '}
-          <a
+          <Link
             className='px-2 font-semibold text-indigo-400 rounded bg-slate-50'
-            href='/auth'
+            to='/auth'
           >
             /auth
-          </a>{' '}
+          </Link>{' '}
           page to log in or sign up. Or click the SIGN IN button above.
         </li>
       </ol>
@@ -113,12 +114,12 @@ const Home = () => {
       </h2>
       <p>
         Going to{' '}
-        <a
+        <Link
           className='px-2 font-semibold text-indigo-400 rounded bg-slate-50'
-          href='/secret'
+          to='/secret'
         >
           /secret
-        </a>{' '}
+        </Link>{' '}
         should result in a redirect to the <span>/auth</span> page
       </p>
 
@@ -127,12 +128,12 @@ const Home = () => {
       </h2>
       <p>
         Going to{' '}
-        <a
+        <Link
           className='px-2 font-semibold text-indigo-400 rounded bg-slate-50'
-          href='/secret'
+          to='/secret'
         >
           /secret
-        </a>{' '}
+        </Link>{' '}
         should result in a page with a button to fetch their profile data from
         the backend.{' '}
       </p>
