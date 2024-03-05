@@ -23,7 +23,7 @@ const supertokensConfig = {
   },
   recipeList: [
     ThirdPartyPasswordless.init({
-      flowType: 'USER_INPUT_CODE_AND_MAGIC_LINK',
+      flowType: 'MAGIC_LINK',
       contactMethod: 'EMAIL',
       providers: authProviders,
 
