@@ -6,15 +6,20 @@ import { toast } from 'sonner';
 
 export const Route = createFileRoute('/auth')({
   beforeLoad: async ({ context }) => {
-    if (context.auth.isLoggedIn) {
-      toast.info('You are already logged in');
-      throw redirect({
-        to: '/',
-      });
-    }
+    try {
+      if (context.auth.isLoggedIn) {
+        toast.info('You are already logged in');
+        throw redirect({
+          to: '/',
+        });
+      }
 
-    const initialMagicLinkSent = await hasInitialLinkBeenSent();
-    return { initialMagicLinkSent };
+      const initialMagicLinkSent = await hasInitialLinkBeenSent();
+      return { initialMagicLinkSent };
+    } catch (error) {
+      console.error('Error in beforeLoad:', error);
+      toast.error('An error occurred while checking authentication.');
+    }
   },
   component: ({ initialMagicLinkSent }) =>
     initialMagicLinkSent ? <ResendLinkForm /> : <AuthForm />,
