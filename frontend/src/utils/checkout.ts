@@ -1,14 +1,16 @@
 // utils/checkout.ts
+import { NavigateFn } from '@tanstack/react-router';
 import getStripe from './getStripe';
 import { handleBillingPortal } from './index';
 
 export const goToCheckout = async (
   planId: string,
   data: boolean,
-  isActive: boolean
+  isActive: boolean,
+  navigate: NavigateFn
 ) => {
   if (!data) {
-    window.location.assign('/auth');
+    navigate({ to: '/auth' });
   }
 
   if (isActive) handleBillingPortal();

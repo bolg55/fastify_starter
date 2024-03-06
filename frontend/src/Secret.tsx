@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { getMe } from './utils';
 import { toast } from 'sonner';
 import Loader from './components/Loader';
+import { Link } from '@tanstack/react-router';
 
 const Secret = () => {
   const [data, setData] = useState(null);
@@ -46,12 +47,12 @@ const Secret = () => {
           <pre className='p-4 text-green-400 rounded-md bg-slate-900'>
             {JSON.stringify(data, null, 2)}
           </pre>
-          <a
+          <Link
             className='w-2/3 px-4 py-2 mt-8 font-semibold text-center transition-colors duration-300 ease-in-out bg-indigo-500 rounded-md text-neutral-100 hover:bg-indigo-400'
-            href='/'
+            to='/'
           >
             Go Home
-          </a>
+          </Link>
         </>
       )}
     </div>

@@ -13,7 +13,9 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as SecretImport } from './routes/secret'
 import { Route as PricingImport } from './routes/pricing'
+import { Route as AuthImport } from './routes/auth'
 
 // Create Virtual Routes
 
@@ -21,8 +23,18 @@ const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
+const SecretRoute = SecretImport.update({
+  path: '/secret',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const PricingRoute = PricingImport.update({
   path: '/pricing',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthRoute = AuthImport.update({
+  path: '/auth',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,8 +51,16 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/auth': {
+      preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
     '/pricing': {
       preLoaderRoute: typeof PricingImport
+      parentRoute: typeof rootRoute
+    }
+    '/secret': {
+      preLoaderRoute: typeof SecretImport
       parentRoute: typeof rootRoute
     }
   }
@@ -48,6 +68,11 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([IndexLazyRoute, PricingRoute])
+export const routeTree = rootRoute.addChildren([
+  IndexLazyRoute,
+  AuthRoute,
+  PricingRoute,
+  SecretRoute,
+])
 
 /* prettier-ignore-end */

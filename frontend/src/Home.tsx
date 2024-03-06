@@ -1,16 +1,17 @@
 import { getMe, handleBillingPortal } from './utils';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Link, useNavigate } from '@tanstack/react-router';
 import UpdateUserNameForm from './components/UpdateUserNameForm';
-import { logout } from './utils/auth';
+import { useAuth } from './hooks/useAuth';
 import useUpdateUserName from './hooks/useUpdateUserName';
-import { useSessionContext } from 'supertokens-auth-react/recipe/session';
 import Loader from './components/Loader';
 
 const Home = () => {
-  const sessionContext = useSessionContext();
+  const navigate = useNavigate();
+  const { isLoggedIn, logout } = useAuth();
   const queryClient = useQueryClient();
   const { isLoading, data, error } = useQuery({
-    enabled: !sessionContext.loading && sessionContext.doesSessionExist,
+    enabled: !!isLoggedIn,
     queryKey: ['userProfile'],
     queryFn: getMe,
   });
@@ -35,7 +36,13 @@ const Home = () => {
   }
 
   const handleClick = async () => {
-    !data ? window.location.assign('/auth') : await logout(queryClient);
+    if (isLoggedIn) {
+      await logout();
+      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+      navigate({ to: '/' });
+    } else {
+      navigate({ to: '/auth' });
+    }
   };
 
   return (
@@ -43,14 +50,14 @@ const Home = () => {
       <div className='flex items-center justify-end mb-16 space-x-4'>
         <button
           onClick={handleClick}
-          className='px-4 py-2 transition-all duration-100 bg-indigo-600 rounded hover:bg-indigo-700'
+          className='px-4 py-2 text-white transition-all duration-100 bg-indigo-600 rounded hover:bg-indigo-700'
         >
-          {data ? 'Sign Out' : 'Sign In'}
+          {isLoggedIn ? 'Sign Out' : 'Sign In'}
         </button>
-        {data && (
+        {isLoggedIn && (
           <button
             onClick={handleBillingPortal}
-            className='px-4 py-2 transition-all duration-100 bg-green-500 rounded hover:bg-green-600'
+            className='px-4 py-2 text-white transition-all duration-100 bg-green-500 rounded hover:bg-green-600'
           >
             Billing Portal
           </button>
@@ -59,7 +66,7 @@ const Home = () => {
 
       <h1 className='mb-6 text-6xl text-center'>
         Hello
-        {data ? (
+        {isLoggedIn ? (
           <>
             ,{' '}
             <span className={isPending ? 'opacity-50' : ''}>
@@ -70,7 +77,7 @@ const Home = () => {
           <span>. You're not signed in</span>
         )}
       </h1>
-      {data && (
+      {isLoggedIn && (
         <UpdateUserNameForm
           updateUserName={updateUserName}
           retry={retry}
@@ -92,12 +99,12 @@ const Home = () => {
       <ol>
         <li>
           Head to the{' '}
-          <a
+          <Link
             className='px-2 font-semibold text-indigo-400 rounded bg-slate-50'
-            href='/auth'
+            to='/auth'
           >
             /auth
-          </a>{' '}
+          </Link>{' '}
           page to log in or sign up. Or click the SIGN IN button above.
         </li>
       </ol>
@@ -107,12 +114,12 @@ const Home = () => {
       </h2>
       <p>
         Going to{' '}
-        <a
+        <Link
           className='px-2 font-semibold text-indigo-400 rounded bg-slate-50'
-          href='/secret'
+          to='/secret'
         >
           /secret
-        </a>{' '}
+        </Link>{' '}
         should result in a redirect to the <span>/auth</span> page
       </p>
 
@@ -121,12 +128,12 @@ const Home = () => {
       </h2>
       <p>
         Going to{' '}
-        <a
+        <Link
           className='px-2 font-semibold text-indigo-400 rounded bg-slate-50'
-          href='/secret'
+          to='/secret'
         >
           /secret
-        </a>{' '}
+        </Link>{' '}
         should result in a page with a button to fetch their profile data from
         the backend.{' '}
       </p>

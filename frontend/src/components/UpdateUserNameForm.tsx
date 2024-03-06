@@ -36,7 +36,7 @@ const UpdateUserNameForm = ({
         required
       />
       <button
-        className='px-4 py-2 transition-all duration-100 bg-indigo-600 rounded hover:bg-indigo-700'
+        className='px-4 py-2 text-white transition-all duration-100 bg-indigo-600 rounded hover:bg-indigo-700'
         type='submit'
         disabled={isLoading}
       >
