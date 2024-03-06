@@ -1,8 +1,12 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
-import AuthForm from '../components/AuthForm';
-import { hasInitialLinkBeenSent } from '../utils/auth';
-import ResendLinkForm from '../components/ResendLinkForm';
 import { toast } from 'sonner';
+import AuthForm from '../components/AuthForm';
+import ResendLinkForm from '../components/ResendLinkForm';
+import {
+  handleMagicLinkClicked,
+  hasInitialLinkBeenSent,
+  isThisSameBrowserAndDevice,
+} from '../utils/auth';
 
 export const Route = createFileRoute('/auth')({
   beforeLoad: async ({ context }) => {
@@ -14,6 +18,22 @@ export const Route = createFileRoute('/auth')({
         });
       }
 
+      // Check if the user is accessing the route with a magic link
+      const isSameBrowserAndDevice = await isThisSameBrowserAndDevice();
+      if (isSameBrowserAndDevice) {
+        // Consume the magic link
+        const magicLinkResult = await handleMagicLinkClicked();
+        if (magicLinkResult === 'success') {
+          window.location.assign('/');
+          // throw redirect({
+          //   to: '/',
+          // });
+          return;
+        } else if (magicLinkResult === 'error') {
+          // Handle error case if needed
+          toast.error('An error occurred. Please try again.');
+        }
+      }
       const initialMagicLinkSent = await hasInitialLinkBeenSent();
       return { initialMagicLinkSent };
     } catch (error) {
