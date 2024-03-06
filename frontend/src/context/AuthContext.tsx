@@ -3,6 +3,7 @@ import Session from 'supertokens-web-js/recipe/session';
 
 export interface AuthContextType {
   isLoggedIn: boolean | null;
+  logout: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
@@ -18,8 +19,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     checkSession();
   }, []);
 
+  const logout = async () => {
+    await Session.signOut();
+    setIsLoggedIn(false);
+  };
+
   return (
-    <AuthContext.Provider value={{ isLoggedIn }}>
+    <AuthContext.Provider value={{ isLoggedIn, logout }}>
       {children}
     </AuthContext.Provider>
   );

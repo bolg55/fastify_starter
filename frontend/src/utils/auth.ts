@@ -1,22 +1,12 @@
+import { NavigateFn } from '@tanstack/react-router';
+import { toast } from 'sonner';
 import {
   clearPasswordlessLoginAttemptInfo,
+  consumePasswordlessCode,
   createPasswordlessCode,
   getPasswordlessLoginAttemptInfo,
   resendPasswordlessCode,
 } from 'supertokens-web-js/recipe/thirdpartypasswordless';
-import { QueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
-import Session from 'supertokens-web-js/recipe/session';
-import { NavigateFn } from '@tanstack/react-router';
-
-export const logout = async (
-  queryClient: QueryClient,
-  navigate: NavigateFn
-) => {
-  await Session.signOut();
-  queryClient.invalidateQueries({ queryKey: ['userProfile'] });
-  navigate({ to: '/' });
-};
 
 export const sendMagicLink = async (email: string) => {
   try {
@@ -60,6 +50,41 @@ export const resendMagicLink = async (navigate: NavigateFn) => {
 
 export const hasInitialLinkBeenSent = async () => {
   return (await getPasswordlessLoginAttemptInfo()) !== undefined;
+};
+
+export const isThisSameBrowserAndDevice = async () => {
+  return (await getPasswordlessLoginAttemptInfo()) !== undefined;
+};
+
+export const handleMagicLinkClicked = async () => {
+  try {
+    const response = await consumePasswordlessCode();
+
+    if (response.status === 'OK') {
+      await clearPasswordlessLoginAttemptInfo();
+      if (
+        response.createdNewRecipeUser &&
+        response.user.loginMethods.length === 1
+      ) {
+        toast.success('Account created successfully. Welcome!');
+      } else {
+        toast.success('Login successful. Welcome back!');
+      }
+
+      return 'success';
+    } else {
+      await clearPasswordlessLoginAttemptInfo();
+      toast.error('Login failed. Please try again');
+      return 'failed';
+    }
+  } catch (error: unknown) {
+    if (isSuperTokensError(error)) {
+      toast.error(error.message);
+    } else {
+      toast.error('Something went wrong');
+      return 'error';
+    }
+  }
 };
 
 // This function checks if the error is a SuperTokens error due to lack of type information
