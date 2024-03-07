@@ -14,7 +14,7 @@ interface RouterContext {
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
-      <div className='flex gap-2 p-2'>
+      <div className='flex gap-4 p-4 mx-14'>
         <Link to='/' className='[&.active]:font-bold'>
           Home
         </Link>{' '}
@@ -22,9 +22,6 @@ export const Route = createRootRouteWithContext<RouterContext>()({
           Pricing
         </Link>
         {''}
-        <Link to='/auth' className='[&.active]:font-bold'>
-          Auth
-        </Link>
       </div>
       <hr />
       <Layout>

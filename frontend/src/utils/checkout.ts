@@ -2,15 +2,18 @@
 import { NavigateFn } from '@tanstack/react-router';
 import getStripe from './getStripe';
 import { handleBillingPortal } from './index';
+import { toast } from 'sonner';
 
 export const goToCheckout = async (
   planId: string,
-  data: boolean,
+  isLoggedIn: boolean,
   isActive: boolean,
   navigate: NavigateFn
 ) => {
-  if (!data) {
+  if (!isLoggedIn) {
     navigate({ to: '/auth' });
+    toast.info('You need to be logged in to subscribe.');
+    return;
   }
 
   if (isActive) handleBillingPortal();

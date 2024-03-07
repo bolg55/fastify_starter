@@ -1,16 +1,20 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useNavigate } from '@tanstack/react-router';
 import { useForm, type FieldValues } from 'react-hook-form';
+import { toast } from 'sonner';
 import { z } from 'zod';
 import { sendMagicLink } from '../utils/auth';
-import { toast } from 'sonner';
 
 const emailSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
 });
 const AuthForm = () => {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(emailSchema),
@@ -19,6 +23,8 @@ const AuthForm = () => {
   const onSubmit = async (data: FieldValues) => {
     try {
       await sendMagicLink(data.email);
+      reset();
+      navigate({ to: '/resend' });
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -27,8 +33,8 @@ const AuthForm = () => {
   };
 
   return (
-    <div className='flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24'>
-      <div className='max-w-sm p-4 mx-auto bg-white border-2 rounded-md shadow-md lg:w-96'>
+    <div className='mt-16 lg:mt-52'>
+      <div className='max-w-sm p-4 mx-auto align-middle bg-white border-2 rounded-md shadow-md lg:w-96'>
         <div>
           <h2 className='text-2xl font-bold leading-9 tracking-tight text-gray-900 '>
             Sign in to your account
@@ -69,12 +75,20 @@ const AuthForm = () => {
               type='submit'
               className='flex w-full justify-center disabled:bg-gray-600 rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
             >
-              Send Magic Link
+              {isSubmitting ? (
+                <div className='flex items-center'>
+                  <div className='w-4 h-4 mr-2 border-2 border-green-500 rounded-full animate-spin border-t-transparent'></div>
+                  <span>Sending...</span>
+                </div>
+              ) : (
+                'Send Magic Link'
+              )}
             </button>
           </form>
         </div>
 
-        <div className='mt-10'>
+        {/* Use for social login */}
+        {/* <div className='mt-10'>
           <div className='relative'>
             <div
               className='absolute inset-0 flex items-center'
@@ -142,7 +156,7 @@ const AuthForm = () => {
           className='absolute inset-0 object-cover w-full h-full'
           src='https://images.unsplash.com/photo-1496917756835-20cb06e75b4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1908&q=80'
           alt=''
-        />
+        />*/}
       </div>
     </div>
   );

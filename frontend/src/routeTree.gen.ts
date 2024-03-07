@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as SecretImport } from './routes/secret'
+import { Route as ResendImport } from './routes/resend'
 import { Route as PricingImport } from './routes/pricing'
 import { Route as AuthImport } from './routes/auth'
 
@@ -25,6 +26,11 @@ const IndexLazyImport = createFileRoute('/')()
 
 const SecretRoute = SecretImport.update({
   path: '/secret',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ResendRoute = ResendImport.update({
+  path: '/resend',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -59,6 +65,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PricingImport
       parentRoute: typeof rootRoute
     }
+    '/resend': {
+      preLoaderRoute: typeof ResendImport
+      parentRoute: typeof rootRoute
+    }
     '/secret': {
       preLoaderRoute: typeof SecretImport
       parentRoute: typeof rootRoute
@@ -72,6 +82,7 @@ export const routeTree = rootRoute.addChildren([
   IndexLazyRoute,
   AuthRoute,
   PricingRoute,
+  ResendRoute,
   SecretRoute,
 ])
 

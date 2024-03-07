@@ -1,10 +1,11 @@
 import { QueryClientProvider } from '@tanstack/react-query';
-import { useAuth } from './hooks/useAuth';
-import queryClient from './providers/dataFetchingProvider';
+import { RouterProvider } from '@tanstack/react-router';
 import { Toaster } from 'sonner';
 import { AuthProvider } from './context/AuthContext';
-import { RouterProvider } from '@tanstack/react-router';
+import { useAuth } from './hooks/useAuth';
+import queryClient from './providers/dataFetchingProvider';
 import router from './providers/routingProvider';
+import Loader from './components/Loader';
 
 const App = () => {
   return (
@@ -20,5 +21,10 @@ export default App;
 
 const InnerApp = () => {
   const auth = useAuth();
-  return <RouterProvider router={router} context={{ auth }} />;
+  return (
+    <>
+      {auth.isLoading && <Loader text='Loading...' />}
+      <RouterProvider router={router} context={{ auth }} />
+    </>
+  );
 };

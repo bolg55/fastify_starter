@@ -1,11 +1,11 @@
-import { useQuery } from '@tanstack/react-query';
-import { getMe } from './utils';
-import Loader from './components/Loader';
-import { toast } from 'sonner';
-import { useEffect } from 'react';
-import TierCard from './components/TierCard';
-import { goToCheckout } from './utils/checkout';
 import { useNavigate } from '@tanstack/react-router';
+import { useEffect } from 'react';
+import { toast } from 'sonner';
+import Loader from './components/Loader';
+import TierCard from './components/TierCard';
+import { useAuth } from './hooks/useAuth';
+import { goToCheckout } from './utils/checkout';
+import useProfile from './hooks/useProfile';
 
 const tiers = [
   {
@@ -53,12 +53,21 @@ const tiers = [
 
 const Pricing = () => {
   const navigate = useNavigate();
-  const { data, isLoading, isError, error } = useQuery({
-    queryKey: ['userProfile'],
-    queryFn: getMe,
-  });
+  const { isLoggedIn, setIsLoggedIn } = useAuth();
+  const { data, error, isLoading, isError } = useProfile();
 
-  const isActive = data?.data?.subscriptions[0].isActive;
+  const isActive = !!data?.data?.subscriptions[0].isActive;
+
+  useEffect(() => {
+    const savedState = localStorage.getItem('isLoggedIn');
+    if (savedState) {
+      const state = JSON.parse(savedState);
+
+      setIsLoggedIn(state);
+
+      localStorage.removeItem('isLoggedIn');
+    }
+  }, [setIsLoggedIn]);
 
   useEffect(() => {
     if (isError) {
@@ -69,6 +78,11 @@ const Pricing = () => {
   if (isLoading) {
     return <Loader text='Loading...' />;
   }
+
+  const handleClick = async (tier: { id: string }) => {
+    localStorage.setItem('isLoggedIn', JSON.stringify(isLoggedIn));
+    await goToCheckout(tier.id, !!isLoggedIn, isActive, navigate);
+  };
 
   return (
     <div className='max-w-5xl mx-auto my-24 sm:my-32'>
@@ -91,9 +105,7 @@ const Pricing = () => {
               key={tier.id}
               tier={tier}
               isActive={isActive}
-              goToCheckout={() =>
-                goToCheckout(tier.id, data, isActive, navigate)
-              }
+              goToCheckout={() => handleClick(tier)}
               index={index}
               totalTiers={tiers.length}
             />

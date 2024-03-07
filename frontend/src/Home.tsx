@@ -1,20 +1,17 @@
-import { getMe, handleBillingPortal } from './utils';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from '@tanstack/react-router';
+import Loader from './components/Loader';
 import UpdateUserNameForm from './components/UpdateUserNameForm';
 import { useAuth } from './hooks/useAuth';
 import useUpdateUserName from './hooks/useUpdateUserName';
-import Loader from './components/Loader';
+import { handleBillingPortal } from './utils';
+import useProfile from './hooks/useProfile';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Home = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { isLoggedIn, logout } = useAuth();
-  const queryClient = useQueryClient();
-  const { isLoading, data, error } = useQuery({
-    enabled: !!isLoggedIn,
-    queryKey: ['userProfile'],
-    queryFn: getMe,
-  });
+  const { data, error, isLoading } = useProfile();
 
   const {
     updateUserName,
@@ -37,16 +34,20 @@ const Home = () => {
 
   const handleClick = async () => {
     if (isLoggedIn) {
-      await logout();
-      queryClient.invalidateQueries({ queryKey: ['userProfile'] });
-      navigate({ to: '/' });
+      try {
+        await logout();
+        await queryClient.invalidateQueries({ queryKey: ['userProfile'] });
+        navigate({ to: '/' });
+      } catch (error) {
+        console.error('Error during logout:', error);
+      }
     } else {
       navigate({ to: '/auth' });
     }
   };
 
   return (
-    <div className='max-w-5xl'>
+    <div className='max-w-5xl mx-auto mt-16'>
       <div className='flex items-center justify-end mb-16 space-x-4'>
         <button
           onClick={handleClick}

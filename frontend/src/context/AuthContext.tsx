@@ -3,13 +3,18 @@ import Session from 'supertokens-web-js/recipe/session';
 
 export interface AuthContextType {
   isLoggedIn: boolean | null;
+  setIsLoggedIn: (value: boolean) => void;
   logout: () => Promise<void>;
+  isLoading: boolean;
+  setIsLoading: (value: boolean) => void;
+  recheckAuthStatus: () => Promise<void>;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const checkSession = async () => {
@@ -20,12 +25,30 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const logout = async () => {
-    await Session.signOut();
-    setIsLoggedIn(false);
+    try {
+      await Session.signOut();
+      setIsLoggedIn(false);
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
+  const recheckAuthStatus = async () => {
+    const sessionExists = await Session.doesSessionExist();
+    setIsLoggedIn(sessionExists);
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, logout }}>
+    <AuthContext.Provider
+      value={{
+        isLoggedIn,
+        setIsLoggedIn,
+        logout,
+        isLoading,
+        setIsLoading,
+        recheckAuthStatus,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
