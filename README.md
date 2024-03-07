@@ -1,16 +1,20 @@
 # Fastify Starter project
 
->Please review [TODO.md](/TODO.md) first as some fixes are in order.
-
 This is a starter project for building APIs with Fastify. It comes preconfigured with some of the most popular plugins and services, including Redis, Supertokens, NeonDB, and more.
 
-Meant to help you get started quickly with building APIs, this project is designed to be a starting point for building APIs with Fastify. It comes with a folder structure and configuration that is designed to be easy to understand and modify.
+This project is designed to be a starting point for building APIs with Fastify. It comes with a folder structure and configuration that is designed to be easy to understand and modify.
+
+> [!WARNING] >**Front end is not production ready.**
+> The front end is not production ready and is only meant for testing the API. You should build your own front end for production.
 
 ## New - React frontend for testing
 
 I've added a new React frontend for testing the API. You can find it in the `frontend` folder. It is a simple react app built with vite and SWC.
 
 The front end allows you to sign in, view protected routes, update profile name, sign out, and make a payment using Stripe.
+
+> [!NOTE]
+> The `Pricing` page persists state on redirect to the Stripe checkout page. This is done using local storage. You should use a more secure method in production, such as a state manager like zustand, jotai etc.
 
 ## NEW - TanStack
 
@@ -31,7 +35,7 @@ I have refactored some of the frontend code to use Tanstack, specifically Tansta
 - [x] Stripe integration
 - [x] React with Vite
 - [x] Tanstack Query
-- [ ] Tanstack Router (WIP)
+- [x] Tanstack Router
 
 ### Folder structure
 
@@ -79,7 +83,8 @@ In the `src/config` folder, you can find the `env.ts` file which is used to vali
 
 You can remove any of the variables from the schema validation if you don't need them.
 
-> **Note**: You will still need to add your environment variables to your .env file.
+> [!NOTE]
+> You will still need to add your environment variables to your .env file.
 > This takes the place of using traditional dotenv and `process.env` to access environment variables. If you do not care about validation and would prefer not to use this, you can remove the `env.ts` file and use `dotenv` instead. You will just need to find and replace anywhere that uses `env` with `process.env`.
 
 ## Drizzle ORM
