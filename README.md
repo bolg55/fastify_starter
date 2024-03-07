@@ -1,10 +1,11 @@
-# Fastify Starter project
+# Fastify Starter project 🚀🖥️
 
 This is a starter project for building APIs with Fastify. It comes preconfigured with some of the most popular plugins and services, including Redis, Supertokens, NeonDB, and more.
 
 This project is designed to be a starting point for building APIs with Fastify. It comes with a folder structure and configuration that is designed to be easy to understand and modify.
 
-> [!WARNING] >**Front end is not production ready.**
+> [!WARNING]
+> **Front end is not production ready.**
 > The front end is not production ready and is only meant for testing the API. You should build your own front end for production.
 
 ## New - React frontend for testing
@@ -18,9 +19,10 @@ The front end allows you to sign in, view protected routes, update profile name,
 
 ## NEW - TanStack
 
-I have refactored some of the frontend code to use Tanstack, specifically Tanstack Query, formerly known as React Query. This is a powerful data fetching library that makes it easy to fetch, cache, and update data in your React applications. It is designed to be easy to use and easy to understand, and is a great fit for this project.
+I have refactored some of the frontend code to use the Tanstack, specifically Tanstack Query, formerly known as React Query, and Tanstack Router (v1). This is a powerful data fetching library, and router that makes it easy to fetch, cache, and update data in your React applications. It is designed to be easy to use and easy to understand, and is a great fit for this project.
 
-> Note: If you do not deploy your backend to a live server, you will need to use something like [ngrok](https://ngrok.com/) to expose your local server to the internet so that the frontend can communicate with it when testing the Stripe integration.
+> [!IMPORTANT]
+> If you do not deploy your backend to a live server, you will need to use something like [ngrok](https://ngrok.com/) to expose your local server to the internet so that the frontend can communicate with it when testing the Stripe integration.
 
 ## Core features
 
@@ -83,7 +85,7 @@ In the `src/config` folder, you can find the `env.ts` file which is used to vali
 
 You can remove any of the variables from the schema validation if you don't need them.
 
-> [!NOTE]
+> [!TIP]
 > You will still need to add your environment variables to your .env file.
 > This takes the place of using traditional dotenv and `process.env` to access environment variables. If you do not care about validation and would prefer not to use this, you can remove the `env.ts` file and use `dotenv` instead. You will just need to find and replace anywhere that uses `env` with `process.env`.
 
@@ -174,7 +176,12 @@ pnpm run migrate
 
 Stripe is a popular payment gateway that allows you to accept payments online. This starter project comes preconfigured with Stripe, allowing for both one-time and recurring payments as well as subscription management and webhooks.
 
-## How to use
+## 🤓 Getting started
+
+>[!TIP]
+> If you would rather use npm or yarn:
+> 1. Delete the `node_modules` folder and the `pnpm-lock.yaml` file. You can do this by running `rm -rf node_modules pnpm-lock.yaml` in your terminal.
+> 2. Run `yarn` or `npm i` to install dependencies, create new `node_modules` folder and new `*.lock` file   
 
 1. Clone the repo
 2. Run `pnpm install` to install required dependencies
@@ -220,11 +227,11 @@ API_DOMAIN= 'http://localhost:8080'
 WEBSITE_DOMAIN= 'http://localhost:5173'
 ```
 
-## Contributing
+## 🤝 Contributing
 
 If you'd like to contribute to this project, please fork the repository and submit a pull request. You can also submit an issue if you find a bug or have a feature request.
 
-## Support
+## 💚 Support
 
 If you need help with this project, you can reach out to me on Twitter at [@kellenbolger](https://twitter.com/kellenbolger).
 
