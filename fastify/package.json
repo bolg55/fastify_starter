@@ -41,7 +41,7 @@
   "devDependencies": {
     "@swc/cli": "^0.3.10",
     "@swc/core": "^1.4.6",
-    "@tsconfig/node18": "^18.2.2",
+    "@tsconfig/node20": "^20.1.2",
     "@types/node": "^20.10.4",
     "@types/pg": "^8.11.0",
     "drizzle-kit": "^0.20.14",
