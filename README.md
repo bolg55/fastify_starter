@@ -4,8 +4,7 @@ This is a starter project for building APIs with Fastify. It comes preconfigured
 
 This project is designed to be a starting point for building APIs with Fastify. It comes with a folder structure and configuration that is designed to be easy to understand and modify.
 
-> [!WARNING]
-> **Front end is not production ready.**
+> [!WARNING] > **Front end is not production ready.**
 > The front end is not production ready and is only meant for testing the API. You should build your own front end for production.
 
 ## New - React frontend for testing
@@ -44,37 +43,62 @@ I have refactored some of the frontend code to use the Tanstack, specifically Ta
 The folder structure is designed to be easy to understand and modify. It is designed to be modular and easy to scale.
 
 ```markdown
-fastify-starter
-├── frontend
-│ ├── public
-│ ├── src
-│ │ ├── assets
-│ │ ├── components
-│ │ ├── hooks
-│ │ └── utils
-│ ├── .env.example
-│ ├── tailwind.config.js
-│ └── vite.config.ts
-│
+├── LICENSE
+├── README.md
+├── TODO.md
 ├── fastify
+│ ├── custom.d.ts
+│ ├── drizzle.config.ts
 │ ├── migrations
+│ │ ├── 0000_nice_obadiah_stane.sql
+│ │ ├── 0001_mean_galactus.sql
+│ │ ├── 0002_stale_ultimates.sql
+│ │ ├── 0003_icy_changeling.sql
+│ │ └── meta
+│ ├── package.json
 │ ├── src
 │ │ ├── config
 │ │ ├── controllers
 │ │ ├── db
+│ │ ├── main.ts
 │ │ ├── middlewares
 │ │ ├── models
-│ │ ├── plugins/...
+│ │ ├── plugins
 │ │ ├── registration
 │ │ ├── routes
 │ │ ├── schemas
 │ │ ├── services
-│ │ ├── utils
-│ │ └── main.ts
-│ ├── .env.example
-│ ├── drizzle.config.ts
-│ ├── tsconfig.json
-│ └── custom.d.ts
+│ │ └── utils
+│ └── tsconfig.json
+└── frontend
+├── index.html
+├── package.json
+├── pnpm-lock.yaml
+├── postcss.config.js
+├── public
+│ └── vite.svg
+├── src
+│ ├── App.tsx
+│ ├── Home.tsx
+│ ├── Layout.tsx
+│ ├── Pricing.tsx
+│ ├── Secret.tsx
+│ ├── assets
+│ ├── components
+│ ├── config.ts
+│ ├── context
+│ ├── hooks
+│ ├── index.css
+│ ├── main.tsx
+│ ├── providers
+│ ├── routeTree.gen.ts
+│ ├── routes
+│ ├── utils
+│ └── vite-env.d.ts
+├── tailwind.config.js
+├── tsconfig.json
+├── tsconfig.node.json
+└── vite.config.ts
 ```
 
 ### Configuration
@@ -120,6 +144,8 @@ export default async function (fastify: FastifyInstance) {
   });
 }
 ```
+
+````
 
 ### Swagger docs
 
@@ -178,16 +204,20 @@ Stripe is a popular payment gateway that allows you to accept payments online. T
 
 ## 🤓 Getting started
 
->[!TIP]
-> If you would rather use npm or yarn:
-> 1. Delete the `node_modules` folder and the `pnpm-lock.yaml` file. You can do this by running `rm -rf node_modules pnpm-lock.yaml` in your terminal.
-> 2. Run `yarn` or `npm i` to install dependencies, create new `node_modules` folder and new `*.lock` file   
+> [!TIP]
+> If you would rather use pnpm or yarn:
+>
+> 1. Delete the `node_modules` folder and the `package-lock.json` file. You can do this by running `rm -rf node_modules package-lock.json` in your terminal.
+> 2. Run `yarn` or `pnpm i` to install dependencies, create new `node_modules` folder and new `*.lock` file.
 
 1. Clone the repo
-2. Run `pnpm install` to install required dependencies
+2. Run `npm install` to install required dependencies
 3. Create a `.env` file using the `.env.example` file as a template
-4. Run `pnpm run migrate` to create the database schema
-5. Run `pnpm run dev` to start the server in development mode
+4. Run `npm run migrate` to create the database schema
+5. Run `npm run dev` to start the server in development mode
+
+> [!DANGER]
+> Due to the way that pnpm structures the node_modules, drizzle migrations do not seem to be working without using `--shamefully-hoist` to make sure esbuilder-register is available. This is not advised for production, but is fine for development.
 
 # Required environment variables
 
@@ -238,3 +268,4 @@ If you need help with this project, you can reach out to me on Twitter at [@kell
 ## License
 
 MIT
+````
