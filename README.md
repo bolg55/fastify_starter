@@ -144,9 +144,6 @@ export default async function (fastify: FastifyInstance) {
   });
 }
 ```
-
-````
-
 ### Swagger docs
 
 This starter project comes preconfigured with Swagger Docs. You can access the docs at `/docs` when you run the server. Each route is documented with the parameters, responses, and more. You can modify the configuration in the `src/plugins/swagger.ts` file.
@@ -195,7 +192,7 @@ Using `drizzle-kit` you can easily migrate your database schema. Provided are th
 You can run the migration script using the following command:
 
 ```zsh
-pnpm run migrate
+npm run migrate
 ```
 
 ### Stripe integration
@@ -216,7 +213,7 @@ Stripe is a popular payment gateway that allows you to accept payments online. T
 4. Run `npm run migrate` to create the database schema
 5. Run `npm run dev` to start the server in development mode
 
-> [!DANGER]
+> [!CAUTION]
 > Due to the way that pnpm structures the node_modules, drizzle migrations do not seem to be working without using `--shamefully-hoist` to make sure esbuilder-register is available. This is not advised for production, but is fine for development.
 
 # Required environment variables
