@@ -3,6 +3,7 @@ import { toast } from 'sonner';
 import { getPasswordlessLoginAttemptInfo } from 'supertokens-web-js/recipe/thirdpartypasswordless';
 import AuthForm from '../components/AuthForm';
 import { handleMagicLinkClicked } from '../utils/auth';
+import Loader from '../components/Loader';
 
 export const Route = createFileRoute('/auth')({
   beforeLoad: async ({ context }) => {
@@ -32,5 +33,6 @@ export const Route = createFileRoute('/auth')({
       }
     }
   },
+  loader: () => <Loader />,
   component: AuthForm,
 });

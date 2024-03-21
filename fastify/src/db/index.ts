@@ -7,7 +7,6 @@ export type DbType = typeof db;
 
 const pool = new Pool({
   connectionString: env.DATABASE_CONNECTION,
-  ssl: true,
 });
 
 export const db = drizzle(pool, { schema });
